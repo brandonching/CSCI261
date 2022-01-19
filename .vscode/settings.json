@@ -2,5 +2,12 @@
     "files.associations": {
         "iostream": "cpp",
         "iterator": "cpp"
-    }
+    },
+    "editor.wordWrapColumn": 120,
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.rulers": [
+        80,
+        120,
+        160
+    ]
 }
