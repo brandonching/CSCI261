@@ -6,7 +6,7 @@
  * Description: Hello world main.cpp for first Makefile
  */
 
-// Libraries.
+// Libraries
 #include <iostream>  // For cin, cout, etc.
 
 // Library namespace

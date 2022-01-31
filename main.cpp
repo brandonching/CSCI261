@@ -6,7 +6,7 @@
  * Description:
  */
 
-// Libraries.
+// Libraries
 #include <iostream>  // For cin, cout, etc.
 
 // Library namespace

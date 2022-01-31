@@ -7,7 +7,7 @@
  * while, do-while, and for loop
  */
 
-// Libraries.
+// Libraries
 #include <iostream>  // For cin, cout, etc.
 
 // Library namespace
