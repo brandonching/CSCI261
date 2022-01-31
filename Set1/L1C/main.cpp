@@ -10,16 +10,14 @@
 // Libraries.
 #include <cstdlib>
 #include <ctime>
-#include <iostream> // For cin, cout, etc.
+#include <iostream>  // For cin, cout, etc.
 
 // Library namespace
 using namespace std;
 
 // Constants
 
-int main()
-{
-
+int main() {
   double minValue;
   double maxValue;
 
@@ -30,24 +28,18 @@ int main()
 
   srand(time(0));
   rand();
-  double randValue = rand() / (double)RAND_MAX * (maxValue - minValue) + minValue;
+  double randValue =
+      rand() / (double)RAND_MAX * (maxValue - minValue) + minValue;
   cout << "A random value is: " << randValue << endl;
 
   cout << "This is in the ";
-  if (randValue < ((((maxValue - minValue) / 4) * 1) + minValue))
-  {
+  if (randValue < ((((maxValue - minValue) / 4) * 1) + minValue)) {
     cout << "first";
-  }
-  else if (randValue < ((((maxValue - minValue) / 4) * 2) + minValue))
-  {
+  } else if (randValue < ((((maxValue - minValue) / 4) * 2) + minValue)) {
     cout << "second";
-  }
-  else if (randValue < ((((maxValue - minValue) / 4) * 3) + minValue))
-  {
+  } else if (randValue < ((((maxValue - minValue) / 4) * 3) + minValue)) {
     cout << "third";
-  }
-  else
-  {
+  } else {
     cout << "fourth";
   }
 
