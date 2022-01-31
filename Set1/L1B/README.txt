@@ -4,34 +4,34 @@ For this lab, your tasks are as follows.  Provide the answers after each number.
 0111 0001 1000 1001 0000 0000 0000 0000
 
 1b. Represent the value in hexadecimal. 
-
+71890000
 
 2a. Convert the decimal number -1,047,986,176 to 32-bit two's complement binary representation.
-
+1100 0001 1000 1001 0000 0000 0000 0000
 
 2b. Represent the value in hexadecimal.
-
+-3E770000
 
 3a. Convert the decimal number 17.125 to 32-bit floating point precsision.
-
+0000 0000 0001 0001.0010 0000 0000 0000
 
 3b. Represent the value in hexadecimal.
-
+11.2
 
 4a. Convert the decimal number -17.125 to 32-bit floating point precision.
-
+-0000 0000 0001 0001.0010 0000 0000 0000
 
 4b. Represent the value in hexadecimal.
-
+-11.2
 
 5a. Convert the hexadecimal value 0xC3890000 to binary.
-
+1100 0011 1000 1001 0000 0000 0000 0000
 
 5b. Convert the binary to a signed decimal integer value using two's complement.
-
+-1014431744
 
 5c. Convert the binary to a floating point decimal value.
-
+-274.0
 
 6.  Using a terminal, perform the following steps.  List the commands used to perform the tasks:
 
