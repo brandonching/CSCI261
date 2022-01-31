@@ -6,9 +6,9 @@
  * Program has two "caculators", one which calculates the current in Ohms law
  * and the other calculates gravitational force
  */
-
 // The include section adds extra definitions from the C++ standard library.
 #include <math.h>  // For pow
+
 #include <iostream>  // For cin, cout, etc.
 
 // We will (most of the time) use the standard library namespace in our
