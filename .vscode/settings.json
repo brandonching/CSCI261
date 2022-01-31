@@ -9,5 +9,9 @@
         80,
         120,
         160
-    ]
+    ],
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "C_Cpp.clang_format_fallbackStyle": "Google"
 }
