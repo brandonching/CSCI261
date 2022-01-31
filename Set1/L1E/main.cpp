@@ -3,19 +3,18 @@
  * Author: Brandon Ching
  * Resources: N/A
  *
- * Description: 
+ * Description: Hello world main.cpp for first Makefile
  */
 
 // Libraries.
-#include <iostream> // For cin, cout, etc.
+#include <iostream>  // For cin, cout, etc.
 
 // Library namespace
 using namespace std;
 
 // Constants
 
-int main()
-{
-
-    return 0;
+int main() {
+  cout << "Hello world!" << endl;
+  return 0;
 }
