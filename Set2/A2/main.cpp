@@ -1,4 +1,4 @@
-/* CSCI 261: Assignment 2: A1 - TBA
+/* CSCI 261: Assignment 2: A2 -
  *
  * Author: Brandon Ching
  * Resources: N/A
