@@ -3,7 +3,8 @@
  * Author: Brandon Ching
  * Resources: N/A
  *
- * Description:
+ * Description: Take an input file, decrypt the message contained within, and
+ * save to a new file
  */
 
 // Libraries
