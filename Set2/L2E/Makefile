@@ -1,5 +1,5 @@
 TARGET = L2E
-SRC_FILES = main.cpp
+SRC_FILES = main.cpp calculator_functions.cpp
 
 CXX = g++
 CFLAGS = -Wall -g
