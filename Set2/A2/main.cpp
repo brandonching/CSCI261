@@ -1,4 +1,4 @@
-/* CSCI 261: Assignment 2: A2 -
+/* CSCI 261: Assignment 2: A2 - PPM Image Editor
  *
  * Author: Brandon Ching
  * Resources: N/A
