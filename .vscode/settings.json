@@ -1,18 +1,15 @@
 {
-    "files.associations": {
-        "iostream": "cpp",
-        "iterator": "cpp",
-        "ostream": "cpp"
-    },
-    "editor.wordWrapColumn": 120,
-    "editor.wordWrap": "wordWrapColumn",
-    "editor.rulers": [
-        80,
-        120,
-        160
-    ],
-    "editor.formatOnPaste": true,
-    "editor.formatOnSave": true,
-    "editor.formatOnType": true,
-    "C_Cpp.clang_format_fallbackStyle": "Google"
+  "files.associations": {
+    "iostream": "cpp",
+    "iterator": "cpp",
+    "ostream": "cpp",
+    "iosfwd": "cpp"
+  },
+  "editor.wordWrapColumn": 120,
+  "editor.wordWrap": "wordWrapColumn",
+  "editor.rulers": [80, 120, 160],
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "C_Cpp.clang_format_fallbackStyle": "Google"
 }
