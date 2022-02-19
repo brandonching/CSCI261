@@ -1,5 +1,5 @@
 TARGET = A2
-SRC_FILES = main.cpp
+SRC_FILES = main.cpp ppm_functions.cpp
 
 CXX = g++
 CFLAGS = -Wall -g
