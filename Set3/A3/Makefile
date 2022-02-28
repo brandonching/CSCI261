@@ -1,4 +1,4 @@
-TARGET = L2C
+TARGET = A3
 SRC_FILES = main.cpp
 
 CXX = g++
