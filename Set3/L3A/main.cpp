@@ -1,9 +1,10 @@
-/* CSCI 261: Assignment 3:
+/* CSCI 261: Assignment 3: Lab 3A - Array Min/Max
  *
  * Author: Brandon Ching
  * Resources: N/A
  *
- * Description:
+ * Description: Get inputs from use into an array up to 15 numbers and print out
+ * numbers along with the min/max
  */
 
 // Libraries
