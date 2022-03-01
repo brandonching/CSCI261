@@ -3,7 +3,8 @@
     "iostream": "cpp",
     "iterator": "cpp",
     "ostream": "cpp",
-    "iosfwd": "cpp"
+    "iosfwd": "cpp",
+    "*.tcc": "cpp"
   },
   "editor.wordWrapColumn": 120,
   "editor.wordWrap": "wordWrapColumn",
