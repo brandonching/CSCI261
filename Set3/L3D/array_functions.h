@@ -9,7 +9,7 @@
  * @param pArray pointer to integer array
  * @param INIT_SIZE initial array size as an integer
  *
- * @note Runtime of function O(?)
+ * @note Runtime of function O(1)
  */
 void array_allocate(int *&pArray, const int INIT_SIZE);
 
@@ -22,7 +22,7 @@ void array_allocate(int *&pArray, const int INIT_SIZE);
  * @param POS position to retrieve value from
  * @return int element value at given position (or zero if out of range)
  *
- * @note Runtime of function O(?)
+ * @note Runtime of function O(1)
  */
 int array_get_element_at(const int *pArray, const int SIZE, const int POS);
 
@@ -35,7 +35,7 @@ int array_get_element_at(const int *pArray, const int SIZE, const int POS);
  * @param POS position to set value at
  * @param VALUE value to place at target position
  *
- * @note Runtime of function O(?)
+ * @note Runtime of function O(1)
  */
 void array_set_element_at(int *&pArray, const int SIZE, const int POS,
                           const int VALUE);
@@ -48,7 +48,7 @@ void array_set_element_at(int *&pArray, const int SIZE, const int POS,
  * @param pArray pointer to integer array
  * @param size size of the array as an integer
  *
- * @note Runtime of function O(?)
+ * @note Runtime of function O(1)
  */
 void array_deallocate(int *&pArray, int &size);
 
@@ -63,7 +63,7 @@ void array_deallocate(int *&pArray, int &size);
  * @param POS position to insert value at
  * @param VALUE value to insert at target position
  *
- * @note Runtime of function O(?)
+ * @note Runtime of function O(n)
  */
 void array_insert_at_position(int *&pArray, int &size,const int PAS,const int VALUE);
 
@@ -75,7 +75,7 @@ void array_insert_at_position(int *&pArray, int &size,const int PAS,const int VA
  * @param SIZE size of the array as an integer
  * @return int minimum value within the array
  *
- * @note Runtime of function O(?)
+ * @note Runtime of function O(n)
  */
 int array_min(int *pARRAY, const int SIZE);
 
@@ -87,7 +87,7 @@ int array_min(int *pARRAY, const int SIZE);
  * @param SIZE size of the array as an integer
  * @return int maximum value within the array
  *
- * @note Runtime of function O(?)
+ * @note Runtime of function O(n)
  */
 int array_max(int *pARRAY, const int SIZE);
 
@@ -102,7 +102,7 @@ int array_max(int *pARRAY, const int SIZE);
  * @return int position within the array target value is located (or -1 if not
  * present)
  *
- * @note Runtime of function O(?)
+ * @note Runtime of function O(n)
  */
 int array_find(int *pARRAY, int SIZE, int TARGET);
 
@@ -116,7 +116,7 @@ int array_find(int *pARRAY, int SIZE, int TARGET);
  * @param size size of the array as an integer
  * @param POS position to remove value from
  *
- * @note Runtime of function O(?)
+ * @note Runtime of function O(n)
  */
 void array_remove_from_position(int *&pArray, int &size, int POS);
 
