@@ -1,4 +1,5 @@
-/* CSCI 261: Assignment 4: Lab 4A -   
+/* CSCI 261: Assignment 4: Lab 4F - A Linked List Class Part IV: A Templated
+ * Linked List
  *
  * Author: Brandon Ching
  * Resources: N/A

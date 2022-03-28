@@ -1,4 +1,5 @@
-/* CSCI 261: Assignment 4: Lab 4A -   
+/* CSCI 261: Assignment 4: Lab 4E - A Linked List Class Part III: Test, Copy,
+ * Print
  *
  * Author: Brandon Ching
  * Resources: N/A

@@ -1,4 +1,4 @@
-/* CSCI 261: Assignment 4: Lab 4A -   
+/* CSCI 261: Assignment 4: Lab 4B - Linked List Operations
  *
  * Author: Brandon Ching
  * Resources: N/A

@@ -1,4 +1,5 @@
-/* CSCI 261: Assignment 4: Lab 4A -   
+/* CSCI 261: Assignment 4: Lab 4D - A Linked List Class Part II:
+ * Construct/Destruct a List
  *
  * Author: Brandon Ching
  * Resources: N/A
