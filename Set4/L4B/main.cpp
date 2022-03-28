@@ -1,17 +1,16 @@
-/* CSCI 261: Assignment 4: Lab 4B - Linked List Operations
- *
- * Author: Brandon Ching
- * Resources: N/A
- *
- * Description:
- */
-
-// Libraries
-#include <iostream>  // For cin, cout, etc.
-
-// Library namespace
+#include <iostream>
 using namespace std;
 
-// Constants
+#include "test_suite.h"
 
-int main() { return 0; }
+int main() {
+
+    cout << "Testing your functions..." << endl << endl;
+    if( run_all_tests() ) {
+        cout << "ALL TESTS PASSED!" << endl;
+    } else {
+        cout << "Not all tests are passing, errors remain..." << endl;
+    }
+
+    return 0;
+}

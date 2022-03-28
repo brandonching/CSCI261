@@ -1,8 +1,9 @@
 TARGET = L4B
-SRC_FILES = main.cpp
+SRC_FILES = main.cpp test_suite.cpp linked_list_functions.cpp
 
 CXX = g++
-CFLAGS = -Wall -g
+CFLAGS = -Wall -g -std=c++11
+
 OBJECTS = $(SRC_FILES:.cpp=.o)
 
 ifeq ($(shell echo "Windows"), "Windows")
@@ -17,10 +18,13 @@ all: $(TARGET)
 $(TARGET): $(OBJECTS)
 	$(CXX) -o $@ $^
 
-debug: CFLAGS += -DDEBUG
-debug: clean $(TARGET)
-
-%.o: %.cpp
+.cpp.o:
 	$(CXX) $(CFLAGS) -o $@ -c $<
+
 clean:
 	$(DEL) $(TARGET) $(OBJECTS)
+
+# DEPENDENCIES
+test_suite.o: test_suite.cpp test_suite.h linked_list_functions.cpp linked_list_functions.h Node.h
+linked_list_functions.o: linked_list_functions.cpp linked_list_functions.h Node.h
+main.o: main.cpp test_suite.h Node.h
