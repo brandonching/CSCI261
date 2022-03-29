@@ -8,7 +8,6 @@ class LinkedList {
   void pushBack(int value);
   int popFront();
 
- private:
   Node *pHead;
   Node *pTail;
   unsigned int size;
