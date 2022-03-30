@@ -24,12 +24,11 @@ LinkedList::LinkedList() {
 
 // Destructor
 LinkedList::~LinkedList() {
-  for (unsigned int n = 0; n <= mSize; n++) {
-    Node* currentNode = mpHead;
-    for (int i = mSize; i >= 0; i--) {
-      currentNode = currentNode->pNext;
-    }
-    delete currentNode;
+  Node* tempNode = mpHead;
+  while (tempNode != nullptr) {
+    Node* tempNext = tempNode->pNext;
+    delete tempNode;
+    tempNode = tempNext;
   }
   mpHead = nullptr;
   mpTail = nullptr;
@@ -104,14 +103,11 @@ unsigned int LinkedList::size() { return mSize; }
 
 // Copy Constructor
 LinkedList::LinkedList(LinkedList& other) {
-  mpHead = other.mpHead;
-  mpTail = other.mpTail;
   mSize = other.size();
   LinkedList newList;
   for (unsigned int i = 0; i < other.size(); i++) {
     newList.pushBack(other.at(i));
   }
-  cout << "Complete copy constructor" << endl;
 }
 
 // Copy Assignment Operator
@@ -120,16 +116,11 @@ LinkedList& LinkedList::operator=(LinkedList& other) {
   if (this == &other) {
     return *this;
   }
-
   // do deep copy
-  mpHead = other.mpHead;
-  mpTail = other.mpTail;
-  mSize = other.size();
-  LinkedList newList;
-  for (unsigned int i = 0; i < other.size(); i++) {
-    newList.pushBack(other.at(i));
-  }
-  *this = newList.mpHead;
+  LinkedList newList(other);
+  swap(newList.mpHead, mpHead);
+  swap(newList.mpTail, mpTail);
+  swap(newList.mSize, mSize);
   return *this;
 }
 
