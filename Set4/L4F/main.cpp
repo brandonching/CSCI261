@@ -10,7 +10,7 @@
 // Libraries
 #include <iostream>  // For cin, cout, etc.
 
-#include "LinkedList.cpp"
+#include "LinkedList.hpp"
 
 // Library namespace
 using namespace std;
@@ -19,7 +19,7 @@ using namespace std;
 
 int main() {
   // Steps 1-5
-  LinkedList *list = new LinkedList;
+  LinkedList<int> *list = new LinkedList<int>;
   cout << "List 1 Size: " << list->size() << endl;
   list->pushFront(1);
   list->pushBack(2);
@@ -35,7 +35,7 @@ int main() {
   cout << endl;
 
   // Steps 6-9
-  LinkedList *list2 = new LinkedList;
+  LinkedList<int> *list2 = new LinkedList<int>;
   cout << endl << "List 2 Size: " << list2->size() << endl;
   list2 = list;
   cout << "Set list2 = list1" << endl;
@@ -56,7 +56,7 @@ int main() {
   cout << endl << endl;
 
   // Steps 12-13
-  LinkedList *list3(list);
+  LinkedList<int> *list3(list);
   cout << "List 1 Size: " << list->size() << endl;
   cout << "List 2 Size: " << list2->size() << endl;
   cout << "List 3 Size: " << list3->size() << endl << endl;
@@ -73,6 +73,17 @@ int main() {
   delete list;
   delete list2;
   delete list3;
+
+// Template
+  cout << endl << endl << "Template Test with String" <<endl;
+  LinkedList<string> *stringList = new LinkedList<string>;
+  stringList->pushFront("is");
+  stringList->pushBack("working");
+  stringList->pushFront("This");
+  stringList->pushBack("now");
+  for (unsigned int i = 0; i < stringList->size(); i++) {
+    cout <<stringList->at(i) << " ";
+  }
 
   return 0;
 }
