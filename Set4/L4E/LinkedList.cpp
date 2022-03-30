@@ -103,6 +103,8 @@ unsigned int LinkedList::size() { return mSize; }
 
 // Copy Constructor
 LinkedList::LinkedList(LinkedList& other) {
+  mpHead = other.mpHead;
+  mpTail = other.mpTail;
   mSize = other.size();
   LinkedList newList;
   for (unsigned int i = 0; i < other.size(); i++) {
