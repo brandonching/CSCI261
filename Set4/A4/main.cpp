@@ -10,212 +10,13 @@
 #include <fstream>
 #include <iostream>  // For cin, cout, etc.
 #include <string>
+#include "functions.cpp"
 
 // Library namespace
 using namespace std;
 
 // Constants
-template <typename T>
-struct Node {
-  T value;
-  Node* pNext;
-};
 
-template <typename T>
-class LinkedList {
- public:
-  LinkedList();
-  ~LinkedList();
-
-  void pushFront(const T VALUE);
-  void pushBack(const T VALUE);
-  T popFront();
-
-  T front();
-  T back();
-  unsigned int size() const;
-
-  LinkedList(const LinkedList& OTHER);
-  LinkedList& operator=(const LinkedList& OTHER);
-  T at(const int POS) const;
-
- private:
-  Node<T>* mpHead;
-  Node<T>* mpTail;
-  unsigned int mSize;
-  Node<T>* mMakeNodeForValue(const T VALUE);
-};
-
-// Constructor
-template <typename T>
-LinkedList<T>::LinkedList() {
-  mpHead = nullptr;
-  mpTail = nullptr;
-  mSize = 0;
-}
-// Copy Constructor
-template <typename T>
-LinkedList<T>::LinkedList(const LinkedList<T>& OTHER) {
-  mpHead = OTHER.mpHead;
-  mpTail = OTHER.mpTail;
-  mSize = OTHER.size();
-  LinkedList newList;
-  for (unsigned int i = 0; i < OTHER.size(); i++) {
-    newList.pushBack(OTHER.at(i));
-  }
-}
-
-// Copy Assignment Operator
-template <typename T>
-LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>& OTHER) {
-  // Self-asignment
-  if (this == &OTHER) {
-    return *this;
-  }
-  // do deep copy
-  LinkedList newList(OTHER);
-  swap(newList.mpHead, mpHead);
-  swap(newList.mpTail, mpTail);
-  swap(newList.mSize, mSize);
-  return *this;
-}
-
-// Destructor
-template <typename T>
-LinkedList<T>::~LinkedList() {
-  Node<T>* tempNode = mpHead;
-  while (tempNode != nullptr) {
-    Node<T>* tempNext = tempNode->pNext;
-    delete tempNode;
-    tempNode = tempNext;
-  }
-  mpHead = nullptr;
-  mpTail = nullptr;
-  mSize = 0;
-}
-
-// mMakeNodeForValue()
-template <typename T>
-Node<T>* LinkedList<T>::mMakeNodeForValue(const T VALUE) {
-  Node<T>* tempNode = new Node<T>;
-  tempNode->pNext = nullptr;
-  tempNode->value = VALUE;
-  return tempNode;
-}
-
-// pushFront()
-template <typename T>
-void LinkedList<T>::pushFront(const T VALUE) {
-  Node<T>* tempNode = new Node<T>;
-  tempNode->pNext = mpHead;
-  tempNode->value = VALUE;
-  mpHead = tempNode;
-  mSize++;
-  if (mSize == 1) {
-    mpTail = mpHead;
-  }
-}
-
-// pushBack()
-template <typename T>
-void LinkedList<T>::pushBack(const T VALUE) {
-  Node<T>* tempNode = new Node<T>;
-  tempNode->pNext = nullptr;
-  tempNode->value = VALUE;
-  if (mpTail != nullptr) {
-    mpTail->pNext = tempNode;
-  }
-  mpTail = tempNode;
-  mSize++;
-  if (mSize == 1) {
-    mpHead = mpTail;
-  }
-}
-
-// popFront()
-template <typename T>
-T LinkedList<T>::popFront() {
-  if (mpHead->pNext != nullptr) {
-    Node<T>* tempNode = mpHead;
-    mpHead = mpHead->pNext;
-    delete tempNode;
-    mSize--;
-  }
-  return T();
-}
-
-// front()
-template <typename T>
-T LinkedList<T>::front() {
-  if (mpHead->pNext != nullptr) {
-    return mpHead->value;
-  }
-
-  return T();
-}
-
-// back()
-template <typename T>
-T LinkedList<T>::back() {
-  if (mpTail->pNext != nullptr) {
-    return mpTail->value;
-  }
-  return T();
-}
-
-// size()
-template <typename T>
-unsigned int LinkedList<T>::size() const {
-  return mSize;
-}
-
-// at()
-template <typename T>
-T LinkedList<T>::at(const int POS) const {
-  if (POS < 0) {
-    return T();
-  }
-  Node<T>* currentNode = mpHead;
-  for (int i = 0; i < POS; i++) {
-    currentNode = currentNode->pNext;
-    if (currentNode == nullptr) {
-      return T();
-    }
-  }
-  return currentNode->value;
-}
-
-// structure for verticies
-template <typename T>
-struct Vertex {
-  T x, y, z;
-};
-
-// Structure for faces
-template <typename T>
-struct Face {
-  T p, q, r;
-};
-
-string prompt_user_for_filename() {
-  cout << "Please Provide a File Name: ";
-  string fileName;
-  cin >> fileName;
-  return fileName;
-}
-
-bool open_file(ifstream& inputFile, const string FILENAME) {
-  // Open File
-  inputFile.open(FILENAME);
-
-  // Check for an error
-  if (inputFile.fail()) {
-    cerr << "Error opeing file." << endl;
-    return 0;
-  }
-  // retrun 1 if open sucessful
-  return 1;
-}
 
 int main(int argc, char* argv[]) {
   string filename;
@@ -248,7 +49,6 @@ int main(int argc, char* argv[]) {
   // read the data and do something with it
   string line;
   while (getline(fileIn, line)) {
-    cout << endl << line << endl;
     if (line[0] == '#') {  // comments
       comments->pushBack(line.substr(2));
     } else if (line[0] == 'v') {  // Verticies
@@ -290,9 +90,80 @@ int main(int argc, char* argv[]) {
   cout << "         " << comments->size() << " comments" << endl;
   cout << "         " << vertices->size() << " vertices" << endl;
   cout << "         " << faces->size() << " faces" << endl;
-  cout << endl << endl;
-  for (unsigned int i = 0; i < comments->size(); i++) {
-    cout << comments->at(i) << endl;
+  cout << endl;
+
+  // Validate faces
+  cout << "Validating faces..." << endl;
+  bool fileIsValid = true;
+  for (unsigned int face = 1; face < faces->size(); face++) {
+    // compare Faces for duplicate indeces
+    if ((faces->at(face).p == faces->at(face).q) ||
+        (faces->at(face).p == faces->at(face).r) ||
+        (faces->at(face).q == faces->at(face).r)) {
+      cout << "        Face " << face + 1 << " has duplicate indices" << endl;
+      fileIsValid = false;
+    }
+
+    // compare for out of range
+    if ((unsigned(faces->at(face).p) > vertices->size()) ||
+        (unsigned(faces->at(face).q) > vertices->size()) ||
+        (unsigned(faces->at(face).r) > vertices->size())) {
+      cout << "        Face " << face + 1 << " contains vertices out of range"
+           << endl;
+      fileIsValid = false;
+    }
+  }
+
+  // print out if file is valid
+  if (fileIsValid) {
+    cout << "...File is valid!" << endl;
+  } else {
+    cout << "...File is invalid.";
+    return 0;
+  }
+
+  // Print Menu
+  int inputChoice;
+  // loop thorugh menu forever until 4 is inputed
+  while (inputChoice != 4) {
+    cout << "What do you wish to do?" << endl;
+    cout << "        1) Print comments" << endl
+         << "        2) Print vertices" << endl
+         << "        3) Print faces" << endl
+         << "        4) Quit" << endl;
+    cout << "Choice: ";
+
+    cin >> inputChoice;
+    cout << endl;
+    // change response based on input
+    switch (inputChoice) {
+      case 1:  // comments
+        for (unsigned int i = 1; i <= comments->size(); i++) {
+          cout << "Comment #" << i << "  " << comments->at(i - 1) << endl;
+        }
+        cout << endl;
+        break;
+      case 2:  // vertices
+        for (unsigned int i = 1; i <= vertices->size(); i++) {
+          cout << "Vertex #" << i << " ";
+          printVertex(vertices, i);
+          cout << endl;
+        }
+        cout << endl;
+        break;
+      case 3:  // faces
+        for (unsigned int i = 1; i <= faces->size(); i++) {
+          cout << "Face #" << i << "        ";
+          printVertex(vertices, faces->at(i - 1).p);
+          cout << "        ";
+          printVertex(vertices, faces->at(i - 1).q);
+          cout << "        ";
+          printVertex(vertices, faces->at(i - 1).r);
+          cout << endl;
+        }
+        cout << endl;
+        break;
+    }
   }
 
   // Dellocate LinkedList
