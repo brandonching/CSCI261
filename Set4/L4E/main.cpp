@@ -4,7 +4,7 @@
  * Author: Brandon Ching
  * Resources: N/A
  *
- * Description:
+ * Description: Use linked list and class to work with the linkedlist object
  */
 
 // Libraries
