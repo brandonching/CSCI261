@@ -1,10 +1,9 @@
-/* CSCI 261: Assignment 4: Lab 4D - A Linked List Class Part II:
- * Construct/Destruct a List
+/* CSCI 261: Assignment 5: Lab 5B - Sorting I: Sorting a List
  *
  * Author: Brandon Ching
  * Resources: N/A
  *
- * Description:
+ * Description: Sorting a list
  */
 
 // Libraries
