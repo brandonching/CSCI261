@@ -1,10 +1,13 @@
-/** @file DoublyLinkedList.hpp
+/** @file CircularDoublyLinkedList.hpp
  * @brief Complete class for use of a doubly linked list
  *
  * @author Brandon Ching
  *
  * @bug No currently known bugs;
  */
+
+#ifndef CIRCULARDOUBLYLINKEDLIST_H
+#define CIRCULARDOUBLYLINKEDLIST_H
 
 // Libraries
 #include <iostream>  // For cin, cout, etc.
@@ -16,15 +19,15 @@ using namespace std;
 
 /** @brief Doubly Linked List Class*/
 template <typename T>
-class DoublyLinkedList {
+class CircularDoublyLinkedList {
  public:
-  DoublyLinkedList();
-  ~DoublyLinkedList();
+  CircularDoublyLinkedList();
+  ~CircularDoublyLinkedList();
 
   int size() const;
 
-  DoublyLinkedList(const DoublyLinkedList& OTHER);
-  DoublyLinkedList& operator=(const DoublyLinkedList& OTHER);
+  CircularDoublyLinkedList(const CircularDoublyLinkedList& OTHER);
+  CircularDoublyLinkedList& operator=(const CircularDoublyLinkedList& OTHER);
   T get(const int POS) const;
   void set(const int POS, const T VAL);
   void insert(const int POS, const T VAL);
@@ -33,7 +36,13 @@ class DoublyLinkedList {
   void print() const;
   void printReverse() const;
 
+  DoublyNode<T>* getHead() const;
+  DoublyNode<T>* getTail() const;
+  DoublyNode<T>* getNext(const DoublyNode<T>& CURRENT) const;
+  DoublyNode<T>* getLast(const DoublyNode<T>& CURRENT) const;
+
  private:
+  DoublyNode<T>* currentNode;
   DoublyNode<T>* mpHead;
   DoublyNode<T>* mpTail;
   unsigned int mSize;
@@ -41,7 +50,7 @@ class DoublyLinkedList {
 
 /** @brief Create new Doubly Linked List */
 template <typename T>
-DoublyLinkedList<T>::DoublyLinkedList() {
+CircularDoublyLinkedList<T>::CircularDoublyLinkedList() {
   mpHead = nullptr;
   mpTail = nullptr;
   mSize = 0;
@@ -52,11 +61,12 @@ DoublyLinkedList<T>::DoublyLinkedList() {
  * @param DoublyLinkedList to be copied
  */
 template <typename T>
-DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T>& OTHER) {
+CircularDoublyLinkedList<T>::CircularDoublyLinkedList(
+    const CircularDoublyLinkedList<T>& OTHER) {
   mpHead = OTHER.mpHead;
   mpTail = OTHER.mpTail;
   mSize = OTHER.size();
-  DoublyLinkedList newList;
+  CircularDoublyLinkedList newList;
   for (unsigned int i = 0; i < OTHER.size(); i++) {
     newList.insert(mSize, OTHER.get(i));
   }
@@ -64,28 +74,28 @@ DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T>& OTHER) {
 
 /** @brief Create a deep copy of list
  *
- * @param DoublyLinkedList to be copied
+ * @param CircularDoublyLinkedList to be copied
  *
  * @return Deep copy of list
  */
 template <typename T>
-DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(
-    const DoublyLinkedList<T>& OTHER) {
+CircularDoublyLinkedList<T>& CircularDoublyLinkedList<T>::operator=(
+    const CircularDoublyLinkedList<T>& OTHER) {
   // Self-asignment
   if (this == &OTHER) {
     return *this;
   }
   // do deep copy
-  DoublyLinkedList newList(OTHER);
+  CircularDoublyLinkedList newList(OTHER);
   swap(newList.mpHead, mpHead);
   swap(newList.mpTail, mpTail);
   swap(newList.mSize, mSize);
   return *this;
 }
 
-/** @brief Deletes DoublyLinkedList */
+/** @brief Deletes CircularDoublyLinkedList */
 template <typename T>
-DoublyLinkedList<T>::~DoublyLinkedList() {
+CircularDoublyLinkedList<T>::~CircularDoublyLinkedList() {
   DoublyNode<T>* tempNode = mpHead;
   while (tempNode != nullptr) {
     DoublyNode<T>* tempNext = tempNode->pNext;
@@ -104,7 +114,7 @@ DoublyLinkedList<T>::~DoublyLinkedList() {
  *
  */
 template <typename T>
-void DoublyLinkedList<T>::insert(const int POS, const T VAL) {
+void CircularDoublyLinkedList<T>::insert(const int POS, const T VAL) {
   DoublyNode<T>* tempNode = new DoublyNode<T>;
   tempNode->value = VAL;
   if (mSize == 0) {
@@ -125,6 +135,8 @@ void DoublyLinkedList<T>::insert(const int POS, const T VAL) {
     tempNode->pLast->pNext = tempNode;
   } else {
     tempNode->pLast = mpTail;
+    tempNode->pNext = mpHead;
+    mpHead->pLast = tempNode;
     mpTail->pNext = tempNode;
     mpTail = tempNode;
   }
@@ -134,7 +146,7 @@ void DoublyLinkedList<T>::insert(const int POS, const T VAL) {
 /** @brief Prints out entire doublylinked list in order with a space between
  * each record*/
 template <typename T>
-void DoublyLinkedList<T>::print() const {
+void CircularDoublyLinkedList<T>::print() const {
   DoublyNode<T>* currentNode = mpHead;
   for (unsigned int i = 0; i < mSize; i++) {
     cout << currentNode->value << " ";
@@ -146,7 +158,7 @@ void DoublyLinkedList<T>::print() const {
 /** @brief Prints out entire doubly linked list backward with a space between
  * each record*/
 template <typename T>
-void DoublyLinkedList<T>::printReverse() const {
+void CircularDoublyLinkedList<T>::printReverse() const {
   DoublyNode<T>* currentNode = mpTail;
   for (unsigned int i = 0; i < mSize; i++) {
     cout << currentNode->value << " ";
@@ -162,7 +174,7 @@ void DoublyLinkedList<T>::printReverse() const {
  *
  */
 template <typename T>
-void DoublyLinkedList<T>::set(const int POS, const T VAL) {
+void CircularDoublyLinkedList<T>::set(const int POS, const T VAL) {
   if ((POS >= 0) && (POS < (signed)mSize)) {
     DoublyNode<T>* currentNode = mpHead;
     for (int i = 0; i < POS; i++) {
@@ -179,7 +191,7 @@ void DoublyLinkedList<T>::set(const int POS, const T VAL) {
  *
  */
 template <typename T>
-void DoublyLinkedList<T>::remove(const int POS) {
+void CircularDoublyLinkedList<T>::remove(const int POS) {
   if (POS <= 0) {
     mpHead = mpHead->pNext;
     mpHead->pLast = nullptr;
@@ -202,7 +214,7 @@ void DoublyLinkedList<T>::remove(const int POS) {
  * @return Size of list
  */
 template <typename T>
-int DoublyLinkedList<T>::size() const {
+int CircularDoublyLinkedList<T>::size() const {
   return mSize;
 }
 
@@ -213,7 +225,7 @@ int DoublyLinkedList<T>::size() const {
  * @return Value of POS
  */
 template <typename T>
-T DoublyLinkedList<T>::get(const int POS) const {
+T CircularDoublyLinkedList<T>::get(const int POS) const {
   if ((POS >= 0) && (POS < (signed)mSize)) {
     DoublyNode<T>* currentNode = mpHead;
     for (int i = 0; i < POS; i++) {
@@ -223,3 +235,33 @@ T DoublyLinkedList<T>::get(const int POS) const {
   }
   return T();
 }
+
+/** @brief get the memory adress of the head
+ *
+ * @return Memory adress of head */
+template <typename T>
+DoublyNode<T>* CircularDoublyLinkedList<T>::getHead() const {
+
+  return mpHead;
+}
+
+/** @brief get the memory adress of the tail
+ *
+ * @return Memory adress of tail */
+template <typename T>
+DoublyNode<T>* CircularDoublyLinkedList<T>::getTail() const {
+  return *mpTail;
+}
+template <typename T>
+DoublyNode<T>* CircularDoublyLinkedList<T>::getNext(
+    const DoublyNode<T>& CURRENT) const {
+  return *CURRENT.pNext->value;
+}
+
+template <typename T>
+DoublyNode<T>* CircularDoublyLinkedList<T>::getLast(
+    const DoublyNode<T>& CURRENT) const {
+  return *CURRENT.pLast->value;
+}
+
+#endif

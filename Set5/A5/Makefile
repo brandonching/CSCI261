@@ -1,4 +1,4 @@
-TARGET = L5E
+TARGET = A5
 SRC_FILES = main.cpp
 
 CXX = g++
