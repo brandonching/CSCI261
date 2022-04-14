@@ -97,7 +97,7 @@ CircularDoublyLinkedList<T>& CircularDoublyLinkedList<T>::operator=(
 template <typename T>
 CircularDoublyLinkedList<T>::~CircularDoublyLinkedList() {
   DoublyNode<T>* tempNode = mpHead;
-  while (tempNode != nullptr) {
+  for (unsigned int i = 0; i < mSize; i++) {
     DoublyNode<T>* tempNext = tempNode->pNext;
     delete tempNode;
     tempNode = tempNext;
@@ -241,7 +241,6 @@ T CircularDoublyLinkedList<T>::get(const int POS) const {
  * @return Memory adress of head */
 template <typename T>
 DoublyNode<T>* CircularDoublyLinkedList<T>::getHead() const {
-
   return mpHead;
 }
 
