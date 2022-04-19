@@ -3,7 +3,7 @@
  * Author: Brandon Ching
  * Resources: N/A
  *
- * Description: working with list/array and the obj file type
+ * Description: creating and working with multidimentional data
  */
 
 // Libraries
