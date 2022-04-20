@@ -1,3 +1,6 @@
+#ifndef DOUBLYLINKEDLIST_H
+#define DOUBLYLINKEDLIST_H
+
 /** @file DoublyLinkedList.hpp
  * @brief Complete class for use of a doubly linked list
  *
@@ -223,3 +226,5 @@ T DoublyLinkedList<T>::get(const int POS) const {
   }
   return T();
 }
+
+#endif

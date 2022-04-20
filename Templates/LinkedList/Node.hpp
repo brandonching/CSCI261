@@ -1,3 +1,5 @@
+#ifndef NODE_H
+#define NODE_H
 /**
  * @brief A single element of a linked list
  *
@@ -15,3 +17,5 @@ struct Node {
    */
   Node *pNext;
 };
+
+#endif

@@ -1,3 +1,5 @@
+#ifndef DOUBLYNODE_H
+#define DOUBLYNODE_H
 /**
  * @brief A single element of a doubly linked list
  *
@@ -20,3 +22,5 @@ struct DoublyNode {
    */
   DoublyNode *pLast;
 };
+
+#endif

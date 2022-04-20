@@ -1,3 +1,5 @@
+#ifndef LINKEDLIST_H
+#define LINKEDLIST_H
 /** @file LinkedList.hpp
  * @brief Complete class for use of linked list
  *
@@ -229,3 +231,5 @@ void LinkedList<T>::print() {
   }
   cout << currentNode->value;
 }
+
+#endif

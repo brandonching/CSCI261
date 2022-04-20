@@ -1,3 +1,6 @@
+#ifndef CIRCULARLYDOUBLYLINKEDLIST_H
+#define CIRCULARLYDOUBLYLINKEDLIST_H
+
 /** @file DoublyLinkedList.hpp
  * @brief Complete class for use of a doubly linked list
  *
@@ -223,3 +226,4 @@ T DoublyLinkedList<T>::get(const int POS) const {
   }
   return -1;
 }
+#endif
