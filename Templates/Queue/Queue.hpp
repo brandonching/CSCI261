@@ -1,8 +1,8 @@
-#ifndef STACK_H
-#define STACK_H
+#ifndef QUEUE_H
+#define QUEUE_H
 
-/** @file stack.hpp
- * @brief Complete class for use of a doubly linked list stacks
+/** @file queue.hpp
+ * @brief Complete class for use of a doubly linked list Queues
  *
  * @author Brandon Ching
  *
@@ -19,15 +19,15 @@ using namespace std;
 
 /** @brief Doubly Linked List Class*/
 template <typename T>
-class Stack {
+class Queue {
  public:
-  Stack();
-  ~Stack();
+  Queue();
+  ~Queue();
 
   int size() const;
 
-  Stack(const Stack& OTHER);
-  Stack& operator=(const Stack& OTHER);
+  Queue(const Queue& OTHER);
+  Queue& operator=(const Queue& OTHER);
 
   T get(const int POS) const;
   void push(const T VAL);
@@ -44,9 +44,9 @@ class Stack {
   unsigned int mSize;
 };
 
-/** @brief Create new Stack */
+/** @brief Create new Doubly Linked List */
 template <typename T>
-Stack<T>::Stack() {
+Queue<T>::Queue() {
   mpHead = nullptr;
   mpTail = nullptr;
   mSize = 0;
@@ -54,42 +54,42 @@ Stack<T>::Stack() {
 
 /** @brief Copy Constructor
  *
- * @param Stack to be copied
+ * @param Queue to be copied
  */
 template <typename T>
-Stack<T>::Stack(const Stack<T>& OTHER) {
+Queue<T>::Queue(const Queue<T>& OTHER) {
   mpHead = OTHER.mpHead;
   mpTail = OTHER.mpTail;
   mSize = OTHER.size();
-  Stack newList;
+  Queue newList;
   for (unsigned int i = 0; i < OTHER.size(); i++) {
     newList.insert(mSize, OTHER.get(i));
   }
 }
 
-/** @brief Create a deep copy of stack
+/** @brief Create a deep copy of list
  *
- * @param Stack to be copied
+ * @param Queue to be copied
  *
- * @return Deep copy of stack
+ * @return Deep copy of list
  */
 template <typename T>
-Stack<T>& Stack<T>::operator=(const Stack<T>& OTHER) {
+Queue<T>& Queue<T>::operator=(const Queue<T>& OTHER) {
   // Self-asignment
   if (this == &OTHER) {
     return *this;
   }
   // do deep copy
-  Stack newList(OTHER);
+  Queue newList(OTHER);
   swap(newList.mpHead, mpHead);
   swap(newList.mpTail, mpTail);
   swap(newList.mSize, mSize);
   return *this;
 }
 
-/** @brief Deletes Stack */
+/** @brief Deletes Queue */
 template <typename T>
-Stack<T>::~Stack() {
+Queue<T>::~Queue() {
   DoublyNode<T>* tempNode = mpHead;
   while (tempNode != nullptr) {
     DoublyNode<T>* tempNext = tempNode->pNext;
@@ -107,7 +107,7 @@ Stack<T>::~Stack() {
  *
  */
 template <typename T>
-void Stack<T>::push(const T VAL) {
+void Queue<T>::push(const T VAL) {
   DoublyNode<T>* tempNode = new DoublyNode<T>;
   tempNode->value = VAL;
   if (mSize == 0) {
@@ -121,10 +121,10 @@ void Stack<T>::push(const T VAL) {
   mSize++;
 }
 
-/** @brief Prints out entire stack list in order with a space between
+/** @brief Prints out entire doublylinked list in order with a space between
  * each record*/
 template <typename T>
-void Stack<T>::print() const {
+void Queue<T>::print() const {
   DoublyNode<T>* currentNode = mpHead;
   for (unsigned int i = 0; i < mSize; i++) {
     cout << currentNode->value << " ";
@@ -133,10 +133,10 @@ void Stack<T>::print() const {
   cout << endl;
 }
 
-/** @brief Prints out entire stack backward with a space between
+/** @brief Prints out entire doubly linked list backward with a space between
  * each record*/
 template <typename T>
-void Stack<T>::printReverse() const {
+void Queue<T>::printReverse() const {
   DoublyNode<T>* currentNode = mpTail;
   for (unsigned int i = 0; i < mSize; i++) {
     cout << currentNode->value << " ";
@@ -145,16 +145,16 @@ void Stack<T>::printReverse() const {
   cout << endl;
 }
 
-/** @brief Removes the tail of the stack
+/** @brief Removes the tail of the Queue
  */
 template <typename T>
-T Stack<T>::pop() {
-  T popValue = mpTail->value;
-  if (mSize == 1) {
-    mpTail = nullptr;
+T Queue<T>::pop() {
+  T popValue = mpHead->value;
+  if (mSize == 0) {
+    mpHead = nullptr;
   } else {
-    mpTail = mpTail->pLast;
-    mpTail->pNext = nullptr;
+    mpHead = mpHead->pNext;
+    mpHead->pLast = nullptr;
   }
   mSize--;
   return popValue;
@@ -162,14 +162,14 @@ T Stack<T>::pop() {
 
 /** @brief Get the value of the tail */
 template <typename T>
-T Stack<T>::peak() {
-  return mpTail->value;
+T Queue<T>::peak() {
+  return mpHead->value;
 }
 
-/** @brief Check if Stack is empty
+/** @brief Check if Queue is empty
  */
 template <typename T>
-bool Stack<T>::isEmpty() {
+bool Queue<T>::isEmpty() {
   if (mSize == 0) {
     return true;
   }
@@ -181,7 +181,7 @@ bool Stack<T>::isEmpty() {
  * @return Size of list
  */
 template <typename T>
-int Stack<T>::size() const {
+int Queue<T>::size() const {
   return mSize;
 }
 
@@ -192,7 +192,7 @@ int Stack<T>::size() const {
  * @return Value of POS
  */
 template <typename T>
-T Stack<T>::get(const int POS) const {
+T Queue<T>::get(const int POS) const {
   if ((POS >= 0) && (POS < (signed)mSize)) {
     DoublyNode<T>* currentNode = mpHead;
     for (int i = 0; i < POS; i++) {

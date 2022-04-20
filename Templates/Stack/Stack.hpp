@@ -44,7 +44,7 @@ class Stack {
   unsigned int mSize;
 };
 
-/** @brief Create new Stack */
+/** @brief Create new Doubly Linked List */
 template <typename T>
 Stack<T>::Stack() {
   mpHead = nullptr;
@@ -67,11 +67,11 @@ Stack<T>::Stack(const Stack<T>& OTHER) {
   }
 }
 
-/** @brief Create a deep copy of stack
+/** @brief Create a deep copy of list
  *
  * @param Stack to be copied
  *
- * @return Deep copy of stack
+ * @return Deep copy of list
  */
 template <typename T>
 Stack<T>& Stack<T>::operator=(const Stack<T>& OTHER) {
@@ -121,7 +121,7 @@ void Stack<T>::push(const T VAL) {
   mSize++;
 }
 
-/** @brief Prints out entire stack list in order with a space between
+/** @brief Prints out entire doublylinked list in order with a space between
  * each record*/
 template <typename T>
 void Stack<T>::print() const {
@@ -133,7 +133,7 @@ void Stack<T>::print() const {
   cout << endl;
 }
 
-/** @brief Prints out entire stack backward with a space between
+/** @brief Prints out entire doubly linked list backward with a space between
  * each record*/
 template <typename T>
 void Stack<T>::printReverse() const {
