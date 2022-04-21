@@ -11,6 +11,9 @@
 #include <iostream>  // For cin, cout, etc.
 #include <string>
 
+#include "Position.hpp"
+#include "Queue.hpp"
+#include "Stack.hpp"
 #include "functions.cpp"
 
 // Library namespace
@@ -49,26 +52,105 @@ int main(int argc, char* argv[]) {
   int searchMethod;
   cin >> searchMethod;
   cout << endl;
+  Stack<Position> positionsToCheck;
+ 
 
   // read the data and do something with it
   int R, C;
   fileIn >> R;
   fileIn >> C;
+
   // Create 2D Array
-  char table[R][C];
+  char maze[R][C];
+  bool visited[R][C] = {};
   char nextChar;
+
   // Iterate through file and build array
   for (int row = 0; row < R; row++) {
     for (int column = 0; column < C; column++) {
       fileIn >> nextChar;
-      table[row][column] = nextChar;
+      maze[row][column] = nextChar;
+
+      // Starting point
+      if (nextChar == 'S') {
+        positionsToCheck.push(Position(row, column));
+        visited[row][column] = true;
+      }
     }
   }
 
-  // Print Table and find min/max
+  bool solved = false;
+  while (!positionsToCheck.isEmpty() && !solved) {
+    Position currentPosition = positionsToCheck.pop();
+    if (maze[currentPosition.row][currentPosition.column] != '#') {
+      if (maze[currentPosition.row][currentPosition.column] == 'E') {
+        cout << "End was Reached!" << endl;
+        solved = true;
+      } else {
+        if (!visited[currentPosition.row + 1][currentPosition.column] &&
+            currentPosition.row != R - 1) {
+          positionsToCheck.push(
+              Position(currentPosition.row + 1, currentPosition.column));
+          visited[currentPosition.row + 1][currentPosition.column] = true;
+        }
+        if (!visited[currentPosition.row][currentPosition.column + 1] &&
+            currentPosition.column != C - 1) {
+          positionsToCheck.push(
+              Position(currentPosition.row, currentPosition.column + 1));
+          visited[currentPosition.row][currentPosition.column + 1] = true;
+        }
+        if (!visited[currentPosition.row - 1][currentPosition.column] &&
+            currentPosition.row != 0) {
+          positionsToCheck.push(
+              Position(currentPosition.row - 1, currentPosition.column));
+          visited[currentPosition.row - 1][currentPosition.column] = true;
+        }
+        if (!visited[currentPosition.row][currentPosition.column - 1] &&
+            currentPosition.column != 0) {
+          positionsToCheck.push(
+              Position(currentPosition.row, currentPosition.column - 1));
+          visited[currentPosition.row][currentPosition.column - 1] = true;
+        }
+      }
+    }
+    // Print visited
+    // cout << endl;
+    // for (int row = 0; row < R; row++) {
+    //   for (int column = 0; column < C; column++) {
+    //     cout << visited[row][column] << " ";
+    //   }
+    //   cout << endl;
+    // }
+  }
+
+  // Print maze
+  // for (int row = 0; row < R; row++) {
+  //   for (int column = 0; column < C; column++) {
+  //     cout << maze[row][column] << " ";
+  //   }
+  //   cout << endl;
+  // }
+
+  // Print visited
+  // for (int row = 0; row < R; row++) {
+  //   for (int column = 0; column < C; column++) {
+  //     cout << visited[row][column] << " ";
+  //   }
+  //   cout << endl;
+  // }
+
+  if (!solved) {
+    cout << "End cannot be reached" << endl;
+  }
+
+  // Print Solved Maze
   for (int row = 0; row < R; row++) {
     for (int column = 0; column < C; column++) {
-      cout << table[row][column] << " ";
+      if (maze[row][column] == '.' && visited[row][column] == true) {
+        cout << "@ ";
+      } else {
+        cout << maze[row][column] << " ";
+      }
     }
     cout << endl;
   }
