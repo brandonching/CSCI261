@@ -1,9 +1,9 @@
-/* CSCI 261: Assignment 6: Lab 6A - Multidimensional Data
+/* CSCI 261: Assignment 6: A6 - A-MAZE-ing
  *
  * Author: Brandon Ching
  * Resources: N/A
  *
- * Description: creating and working with multidimentional data
+ * Description: using BFS/DFS to solve a maze
  */
 
 // Libraries
@@ -52,8 +52,6 @@ int main(int argc, char* argv[]) {
   int searchMethod;
   cin >> searchMethod;
   cout << endl;
-  Stack<Position> positionsToCheck;
- 
 
   // read the data and do something with it
   int R, C;
@@ -65,80 +63,106 @@ int main(int argc, char* argv[]) {
   bool visited[R][C] = {};
   char nextChar;
 
-  // Iterate through file and build array
-  for (int row = 0; row < R; row++) {
-    for (int column = 0; column < C; column++) {
-      fileIn >> nextChar;
-      maze[row][column] = nextChar;
-
-      // Starting point
-      if (nextChar == 'S') {
-        positionsToCheck.push(Position(row, column));
-        visited[row][column] = true;
-      }
-    }
-  }
-
   bool solved = false;
-  while (!positionsToCheck.isEmpty() && !solved) {
-    Position currentPosition = positionsToCheck.pop();
-    if (maze[currentPosition.row][currentPosition.column] != '#') {
-      if (maze[currentPosition.row][currentPosition.column] == 'E') {
-        cout << "End was Reached!" << endl;
-        solved = true;
-      } else {
-        if (!visited[currentPosition.row + 1][currentPosition.column] &&
-            currentPosition.row != R - 1) {
-          positionsToCheck.push(
-              Position(currentPosition.row + 1, currentPosition.column));
-          visited[currentPosition.row + 1][currentPosition.column] = true;
-        }
-        if (!visited[currentPosition.row][currentPosition.column + 1] &&
-            currentPosition.column != C - 1) {
-          positionsToCheck.push(
-              Position(currentPosition.row, currentPosition.column + 1));
-          visited[currentPosition.row][currentPosition.column + 1] = true;
-        }
-        if (!visited[currentPosition.row - 1][currentPosition.column] &&
-            currentPosition.row != 0) {
-          positionsToCheck.push(
-              Position(currentPosition.row - 1, currentPosition.column));
-          visited[currentPosition.row - 1][currentPosition.column] = true;
-        }
-        if (!visited[currentPosition.row][currentPosition.column - 1] &&
-            currentPosition.column != 0) {
-          positionsToCheck.push(
-              Position(currentPosition.row, currentPosition.column - 1));
-          visited[currentPosition.row][currentPosition.column - 1] = true;
+  if (searchMethod == 1) {
+    Queue<Position> positionsToCheck;
+    // Iterate through file and build array
+    for (int row = 0; row < R; row++) {
+      for (int column = 0; column < C; column++) {
+        fileIn >> nextChar;
+        maze[row][column] = nextChar;
+
+        // Starting point
+        if (nextChar == 'S') {
+          positionsToCheck.push(Position(row, column));
+          visited[row][column] = true;
         }
       }
     }
-    // Print visited
-    // cout << endl;
-    // for (int row = 0; row < R; row++) {
-    //   for (int column = 0; column < C; column++) {
-    //     cout << visited[row][column] << " ";
-    //   }
-    //   cout << endl;
-    // }
+    while (!positionsToCheck.isEmpty() && !solved) {
+      Position currentPosition = positionsToCheck.pop();
+      if (maze[currentPosition.row][currentPosition.column] != '#') {
+        if (maze[currentPosition.row][currentPosition.column] == 'E') {
+          cout << "End was Reached!" << endl;
+          solved = true;
+        } else {
+          if (!visited[currentPosition.row + 1][currentPosition.column] &&
+              currentPosition.row != R - 1) {
+            positionsToCheck.push(
+                Position(currentPosition.row + 1, currentPosition.column));
+            visited[currentPosition.row + 1][currentPosition.column] = true;
+          }
+          if (!visited[currentPosition.row][currentPosition.column + 1] &&
+              currentPosition.column != C - 1) {
+            positionsToCheck.push(
+                Position(currentPosition.row, currentPosition.column + 1));
+            visited[currentPosition.row][currentPosition.column + 1] = true;
+          }
+          if (!visited[currentPosition.row - 1][currentPosition.column] &&
+              currentPosition.row != 0) {
+            positionsToCheck.push(
+                Position(currentPosition.row - 1, currentPosition.column));
+            visited[currentPosition.row - 1][currentPosition.column] = true;
+          }
+          if (!visited[currentPosition.row][currentPosition.column - 1] &&
+              currentPosition.column != 0) {
+            positionsToCheck.push(
+                Position(currentPosition.row, currentPosition.column - 1));
+            visited[currentPosition.row][currentPosition.column - 1] = true;
+          }
+        }
+      }
+    }
+  } else if (searchMethod == 2) {
+    Stack<Position> positionsToCheck;
+    // Iterate through file and build array
+    for (int row = 0; row < R; row++) {
+      for (int column = 0; column < C; column++) {
+        fileIn >> nextChar;
+        maze[row][column] = nextChar;
+
+        // Starting point
+        if (nextChar == 'S') {
+          positionsToCheck.push(Position(row, column));
+          visited[row][column] = true;
+        }
+      }
+    }
+    while (!positionsToCheck.isEmpty() && !solved) {
+      Position currentPosition = positionsToCheck.pop();
+      if (maze[currentPosition.row][currentPosition.column] != '#') {
+        if (maze[currentPosition.row][currentPosition.column] == 'E') {
+          cout << "End was Reached!" << endl;
+          solved = true;
+        } else {
+          if (!visited[currentPosition.row + 1][currentPosition.column] &&
+              currentPosition.row != R - 1) {
+            positionsToCheck.push(
+                Position(currentPosition.row + 1, currentPosition.column));
+            visited[currentPosition.row + 1][currentPosition.column] = true;
+          }
+          if (!visited[currentPosition.row][currentPosition.column + 1] &&
+              currentPosition.column != C - 1) {
+            positionsToCheck.push(
+                Position(currentPosition.row, currentPosition.column + 1));
+            visited[currentPosition.row][currentPosition.column + 1] = true;
+          }
+          if (!visited[currentPosition.row - 1][currentPosition.column] &&
+              currentPosition.row != 0) {
+            positionsToCheck.push(
+                Position(currentPosition.row - 1, currentPosition.column));
+            visited[currentPosition.row - 1][currentPosition.column] = true;
+          }
+          if (!visited[currentPosition.row][currentPosition.column - 1] &&
+              currentPosition.column != 0) {
+            positionsToCheck.push(
+                Position(currentPosition.row, currentPosition.column - 1));
+            visited[currentPosition.row][currentPosition.column - 1] = true;
+          }
+        }
+      }
+    }
   }
-
-  // Print maze
-  // for (int row = 0; row < R; row++) {
-  //   for (int column = 0; column < C; column++) {
-  //     cout << maze[row][column] << " ";
-  //   }
-  //   cout << endl;
-  // }
-
-  // Print visited
-  // for (int row = 0; row < R; row++) {
-  //   for (int column = 0; column < C; column++) {
-  //     cout << visited[row][column] << " ";
-  //   }
-  //   cout << endl;
-  // }
-
   if (!solved) {
     cout << "End cannot be reached" << endl;
   }
