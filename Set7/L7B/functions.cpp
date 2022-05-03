@@ -1,7 +1,7 @@
-#include "functions.h"
+#ifndef FUNCTIONS_CPP
+#define FUNCTIONS_CPP
 
-#include <fstream>
-#include <iostream>
+#include "functions.h"
 
 string prompt_user_for_filename() {
   cout << "Please Provide a File Name: ";
@@ -22,3 +22,5 @@ bool open_file(ifstream& inputFile, const string FILENAME) {
   // retrun 1 if open sucessful
   return 1;
 }
+
+#endif

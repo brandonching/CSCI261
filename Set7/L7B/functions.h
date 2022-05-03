@@ -1,6 +1,8 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
+#include <fstream>
+#include <iostream>
 #include <string>
 using namespace std;
 

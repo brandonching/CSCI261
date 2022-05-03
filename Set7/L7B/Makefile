@@ -2,7 +2,12 @@ TARGET = L7B
 SRC_FILES = main.cpp
 
 CXX = g++
-CFLAGS = -Wall -g
+CFLAGS = -Wall -g -std=c++11
+CXX_FLAGS = 
+INC_PATH = /usr/local/include/
+LIB_PATH = /usr/local/lib/
+LIBS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
+
 OBJECTS = $(SRC_FILES:.cpp=.o)
 
 ifeq ($(shell echo "Windows"), "Windows")
@@ -15,12 +20,12 @@ endif
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	$(CXX) -o $@ $^
+	$(CXX) ${CXX_FLAGS} -o $@ $^ -L${LIB_PATH} ${LIBS}
 
 debug: CFLAGS += -DDEBUG
 debug: clean $(TARGET)
 
 %.o: %.cpp
-	$(CXX) $(CFLAGS) -o $@ -c $<
+	$(CXX) ${CXX_FLAGS} $(CFLAGS) -o $@ -c $< -I${INC_PATH} 
 clean:
 	$(DEL) $(TARGET) $(OBJECTS)
