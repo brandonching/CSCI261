@@ -2,14 +2,15 @@
 
 #include <cmath>
 
-#include "functions.h"
-
 bool EquilateralTriangle::setCoordinates(sf::Vector2f coordinates[3]) {
   // Compute Triangle Side Lengths
   float sideLength[3] = {};
-  sideLength[0] = pointDistance(coordinates[0], coordinates[1]);
-  sideLength[1] = pointDistance(coordinates[1], coordinates[2]);
-  sideLength[2] = pointDistance(coordinates[2], coordinates[0]);
+  sideLength[0] = std::abs(sqrt(pow((coordinates[0].x - coordinates[1].x), 2) +
+                           pow((coordinates[0].y - coordinates[1].y), 2)));
+  sideLength[1] = std::abs(sqrt(pow((coordinates[1].x - coordinates[2].x), 2) +
+                                pow((coordinates[1].y - coordinates[2].y), 2)));
+  sideLength[2] = std::abs(sqrt(pow((coordinates[2].x - coordinates[0].x), 2) +
+                                pow((coordinates[2].y - coordinates[0].y), 2)));
 
   // Check if Triangle has positive length sides
   bool triangleIsValid = true;
@@ -37,8 +38,8 @@ bool EquilateralTriangle::setCoordinates(sf::Vector2f coordinates[3]) {
     if (otherLegs > longLeg) {
       // Triangle is Still Valid
       // Check if side lengths all match
-      if (!((sideLength[0] == sideLength[1]) &&
-            (sideLength[0] == sideLength[2]))) {
+      if (!((std::abs(sideLength[0] - sideLength[1]) < 0.001) &&
+            (std::abs(sideLength[0] - sideLength[2]) < 0.001))) {
         triangleIsValid = false;
       }
     } else {

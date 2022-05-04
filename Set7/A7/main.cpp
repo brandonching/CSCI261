@@ -18,17 +18,29 @@
 #include "LinkedList.hpp"
 #include "ScaleneTriangle.h"
 #include "Triangle.h"
-#include "functions.h"
 
 // Library namespace
 using namespace std;
 
 // Constants
+bool open_file(ifstream& inputFile, const string FILENAME) {
+  // Open File
+  inputFile.open(FILENAME);
+
+  // Check for an error
+  if (inputFile.fail()) {
+    cerr << "Error opeing file." << endl;
+    return 0;
+  }
+  // retrun 1 if open sucessful
+  return 1;
+}
 
 int main(int argc, char* argv[]) {
   string filename;
   if (argc == 1) {
-    filename = prompt_user_for_filename();
+    cout << "Please Provide a File Name: ";
+    cin >> filename;
   } else if (argc == 2) {
     filename = argv[1];
   } else {
