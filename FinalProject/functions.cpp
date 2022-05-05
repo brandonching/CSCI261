@@ -1,11 +1,17 @@
 #include "functions.h"
 
+#include <cstring>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
-#include <vector>
 #include <sstream>
+#include <vector>
 
+/** @brief Ask the user wheter or not the input files are formatted correctly
+ * according to README.txt
+ *
+ * @return true if formatted corret
+ * **/
 bool files_are_formatted() {
   char answer;
   while (!(answer == 'y' || answer == 'Y' || answer == 'n' || answer == 'N')) {
@@ -23,13 +29,12 @@ bool files_are_formatted() {
   return false;
 }
 
-string prompt_user_for_filename() {
-  cout << "What file do you wish to open: ";
-  string fileName;
-  cin >> fileName;
-  return fileName;
-}
-
+/** @brief Open a file and save into inputFile ifstream
+ *
+ * @param inputFile the ifstream object for the input file
+ * @param FILENAME the file directory to the respective file
+ *
+ * **/
 void open_file(ifstream &inputFile, const string FILENAME) {
   // Open File
   inputFile.open(FILENAME);
@@ -44,18 +49,26 @@ void open_file(ifstream &inputFile, const string FILENAME) {
   }
 }
 
-void print_catalog(const LinkedList<Course> *CATALOG) {
+/** @brief Print out the catalog
+ *
+ * @param CATALOG The catalog to be printed
+ * **/
+void print_catalog(const DoublyLinkedList<Course> *CATALOG) {
   // Print out the catalog
   cout << "-- Course Catalog --" << endl;
   cout << " Course | CH | Name" << endl;
-  for (unsigned int i = 0; i < CATALOG->size(); i++) {
-    Course thisClass = CATALOG->at(i);
+  for (int i = 0; i < CATALOG->size(); i++) {
+    Course thisClass = CATALOG->get(i);
     cout << right << setw(4) << thisClass.getDepartment()
          << thisClass.getCourseID() << "  " << left << setw(6)
          << thisClass.getCredits() << thisClass.getName() << endl;
   }
 }
 
+/** @brief Display the Main Menu
+ *
+ * @return Users numeric Selection
+ * **/
 int main_menu() {
   int option;
   cout << endl << "Main Menu" << endl;
@@ -67,18 +80,37 @@ int main_menu() {
   return option;
 }
 
-void schedule_planner(const LinkedList<Course> *CATALOG) {
+/** @brief Display the Schedule Menu
+ *
+ * @return Users numeric Selection
+ * **/
+int schedule_menu() {
+  int option;
+  cout << endl << "Schedule Planner Menu" << endl;
+  cout << "   1 - New Schedule" << endl;
+  cout << "   0 - Exit to Main Menu" << endl;
+  cout << "Menu Selection: ";
+  cin >> option;
+  return option;
+}
+
+/** @brief Create a schedule
+ *
+ * @param CATALOG The course catalog
+ * **/
+void schedule_planner(const DoublyLinkedList<Course> *CATALOG) {
   int option = 1;
+  // Keep looping through the schedule planner submenu until user choses to
+  // return to main menu
   while (option != 0) {
-    cout << endl << "Schedule Planner Menu" << endl;
-    cout << "   1 - New Schedule" << endl;
-    cout << "   0 - Exit to Main Menu" << endl;
-    cout << "Menu Selection: ";
-    cin >> option;
+    option = schedule_menu();
     switch (option) {
       case 0:
+        // Return to main menu
         break;
       case 1:
+        // New Schedule
+        // Get general information for schedule header
         string firstName, lastName;
         int studentID, gradYear;
         char completedCourseWork;
@@ -96,36 +128,69 @@ void schedule_planner(const LinkedList<Course> *CATALOG) {
         cin >> gradYear;
         cout << "Do you have any completed course work? [y/n]:";
         cin >> completedCourseWork;
-        LinkedList<Course> *completedCourses = new LinkedList<Course>;
+
+        // If courses have been completed, have user input these course
+        DoublyLinkedList<Course> *completedCourses =
+            new DoublyLinkedList<Course>;
         if (completedCourseWork == 'y' || completedCourseWork == 'Y') {
-          cout << endl<<"Let's add your completed courses. I'll have you add one "
+          cout << endl
+               << "Let's add your completed courses. I'll have you add one "
                   "course at a time, and when your done just type "
                << '"' << "Done" << '"' << endl;
-          cout << "Example Entry:" << endl << "I've Completed: ABCD123" << endl << endl;
+          cout << "Example Entry:" << endl
+               << "I've Completed: ABCD123" << endl
+               << endl;
 
+          // Get completed courses
           string nextCompletedCourse;
           while (nextCompletedCourse != "Done") {
             cout << "I've Completed: ";
             cin >> nextCompletedCourse;
+            // If user inputs a course, validate against catalog and add to
+            // completed list
             if (nextCompletedCourse != "Done") {
-              string department =
-                  nextCompletedCourse.substr(0, nextCompletedCourse.size() - 3);
-              completedCourses->pushBack(getCourse(
-                  CATALOG,
-                  nextCompletedCourse.substr(0, nextCompletedCourse.size() - 3),
-                  stoi(
-                      nextCompletedCourse.substr(nextCompletedCourse.size() - 3,
-                                                 nextCompletedCourse.size()))));
+              completedCourses->insert(
+                  completedCourses->size(),
+                  getCourse(CATALOG,
+                            nextCompletedCourse.substr(
+                                0, nextCompletedCourse.size() - 3),
+                            stoi(nextCompletedCourse.substr(
+                                nextCompletedCourse.size() - 3,
+                                nextCompletedCourse.size()))));
+
+              if (completedCourses->get(completedCourses->size() - 1)
+                      .getCredits() != -1) {
+                cout << "\x1B[32mAdded Sucesfully: "
+                     << completedCourses->get(completedCourses->size() - 1)
+                            .getDepartment()
+                     << completedCourses->get(completedCourses->size() - 1)
+                            .getCourseID()
+                     << " "
+                     << completedCourses->get(completedCourses->size() - 1)
+                            .getName()
+                     << "\x1B[37m" << endl;
+              } else {
+                // Print if course is not found and delete from course complete
+                // list
+                cout << "\x1B[31mError: "
+                     << completedCourses->get(completedCourses->size() - 1)
+                            .getDepartment()
+                     << completedCourses->get(completedCourses->size() - 1)
+                            .getCourseID()
+                     << " NOT FOUND\x1B[37m" << endl;
+                completedCourses->remove(completedCourses->size() - 1);
+              }
             }
           }
-          for (unsigned int i = 0; i < completedCourses->size(); i++) {
-            if (completedCourses->at(i).getDepartment() != "NULL") {
-              cout << completedCourses->at(i).getDepartment()
-                   << completedCourses->at(i).getCourseID() << " "
-                   << completedCourses->at(i).getName() << endl;
-            } else {
-              cout << "error";
-            }
+
+          // Print out completed course and if they were found
+          for (int i = 0; i < completedCourses->size(); i++) {
+          }
+
+          for (int i = 0; i < completedCourses->size(); i++) {
+            cout << completedCourses->get(i).getDepartment()
+                 << completedCourses->get(i).getCourseID() << " "
+                 << completedCourses->get(i).getName() << endl;
           }
         }
         cout << "--------------------------------------------------------------"
@@ -141,14 +206,29 @@ void schedule_planner(const LinkedList<Course> *CATALOG) {
   }
 }
 
-Course getCourse(const LinkedList<Course> *CATALOG, const string DEPARTMENT,
-                 const int COURSE_ID) {
-  for (unsigned int i = 0; i < CATALOG->size(); i++) {
-    if ((CATALOG->at(i).getDepartment() == DEPARTMENT) &&
-        (CATALOG->at(i).getCourseID() == COURSE_ID)) {
-      return CATALOG->at(i);
+Course getCourse(const DoublyLinkedList<Course> *CATALOG,
+                 const string DEPARTMENT, const int COURSE_ID) {
+  // compare Department and courseID to catalog. Return Course from catalog if
+  // found
+  for (int i = 0; i < CATALOG->size(); i++) {
+    if ((CATALOG->get(i).getDepartment() == string_to_upper(DEPARTMENT)) &&
+        (CATALOG->get(i).getCourseID() == COURSE_ID)) {
+      return CATALOG->get(i);
     }
   }
-  Course nullCourse;
+  // If course not found in catalog, create null course and return
+  Course nullCourse(DEPARTMENT, COURSE_ID, -1, "NULL");
   return nullCourse;
+}
+
+string string_to_upper(const string STR) {
+  string result = STR;
+  string upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  string lower = "abcdefghijklmnopqrstuvwxyz";
+  for (int i = 0; i < 26; i++) {
+    while (result.find(lower[i]) != string::npos) {
+      result.replace(result.find(lower[i]), 1, upper.substr(i, 1));
+    }
+  }
+  return result;
 }

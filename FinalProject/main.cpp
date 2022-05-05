@@ -15,7 +15,7 @@
 #include <vector>
 
 #include "Course.h"
-#include "LinkedList.hpp"
+#include "DoublyLinkedList.hpp"
 #include "functions.h"
 
 // Library namespace
@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
   open_file(courseCatalogFileIn, courseCatalogDirectory);
 
   // Build Course Catalog
-  LinkedList<Course>* courseCatalog = new LinkedList<Course>;
+  DoublyLinkedList<Course>* courseCatalog = new DoublyLinkedList<Course>;
   string line;
   getline(courseCatalogFileIn, line);  // Ignore File Header
   // Iterate through each line of file
@@ -67,24 +67,29 @@ int main(int argc, char* argv[]) {
     }
     // Create a new course and add to catalog
     Course newCourse(row[0], stoi(row[1]), stod(row[2]), row[3]);
-    courseCatalog->pushBack(newCourse);
+    courseCatalog->insert(courseCatalog->size(),newCourse);
   }
 
   // Main Menu
   int option = 1;
   while (option != 0) {
+    // Print menu and get user input
     option = main_menu();
     switch (option) {
       case 0:
+        // Close the Program
         cout << "Shutting Down" << endl;
         break;
       case 1:
+        // Print out the entire catalog
         print_catalog(courseCatalog);
         break;
       case 2:
+        // Enter the Schedule planner
         schedule_planner(courseCatalog);
         break;
       default:
+        // Selection does not exist
         cerr << "Error: Selection " << '"' << option << '"' << " not recognized"
              << endl;
         break;

@@ -60,7 +60,7 @@ DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T>& OTHER) {
   mpTail = OTHER.mpTail;
   mSize = OTHER.size();
   DoublyLinkedList newList;
-  for (unsigned int i = 0; i < OTHER.size(); i++) {
+  for (int i = 0; i < OTHER.size(); i++) {
     newList.insert(mSize, OTHER.get(i));
   }
 }

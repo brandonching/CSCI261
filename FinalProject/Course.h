@@ -4,8 +4,10 @@
 using namespace std;
 #include <string>
 
-#include "LinkedList.hpp"
-
+#include "DoublyLinkedList.hpp"
+/** @brief A Complete Class for working with collage courses
+ *
+ * **/
 class Course {
  public:
   Course();
@@ -23,15 +25,14 @@ class Course {
   void setCredits(const double CREDITS);
   void addPreReq(Course newPreReq);
   void addCoReq(Course newCoReq);
-  
 
  private:
   string department;
   int courseID;
   double credits;
   string courseName;
-  LinkedList<Course> preReq;
-  LinkedList<Course> coReq;
+  DoublyLinkedList<Course> preReq;
+  DoublyLinkedList<Course> coReq;
 };
 
 #endif
