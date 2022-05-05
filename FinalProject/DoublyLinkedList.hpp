@@ -183,10 +183,13 @@ void DoublyLinkedList<T>::set(const int POS, const T VAL) {
  */
 template <typename T>
 void DoublyLinkedList<T>::remove(const int POS) {
-  if (POS <= 0) {
+  if (mSize == 1) {
+    mpHead = nullptr;
+    mpTail = nullptr;
+  } else if (POS <= 0) {
     mpHead = mpHead->pNext;
     mpHead->pLast = nullptr;
-  } else if (POS >= (signed)mSize-1) {
+  } else if (POS >= (signed)mSize - 1) {
     mpTail = mpTail->pLast;
     mpTail->pNext = nullptr;
   } else {

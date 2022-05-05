@@ -1,5 +1,5 @@
 TARGET = SchedulePlanner
-SRC_FILES = main.cpp functions.cpp Course.cpp
+SRC_FILES = main.cpp functions.cpp Course.cpp Schedule.cpp
 
 CXX = g++
 CFLAGS = -Wall -g -std=c++11

@@ -7,6 +7,8 @@
 #include <sstream>
 #include <vector>
 
+#include "schedule.h"
+
 /** @brief Ask the user wheter or not the input files are formatted correctly
  * according to README.txt
  *
@@ -55,7 +57,7 @@ void open_file(ifstream &inputFile, const string FILENAME) {
  * **/
 void print_catalog(const DoublyLinkedList<Course> *CATALOG) {
   // Print out the catalog
-  cout << "-- Course Catalog --" << endl;
+  cout << endl << endl;
   cout << " Course | CH | Name" << endl;
   for (int i = 0; i < CATALOG->size(); i++) {
     Course thisClass = CATALOG->get(i);
@@ -110,101 +112,67 @@ void schedule_planner(const DoublyLinkedList<Course> *CATALOG) {
         break;
       case 1:
         // New Schedule
+        Schedule newSchedule(CATALOG);
         // Get general information for schedule header
-        string firstName, lastName;
-        int studentID, gradYear;
         char completedCourseWork;
         cout << endl
              << "Welcome to the Schedule Planner! Before we began, Please tell "
                 "me a little about yourself"
              << endl;
-        cout << "First Name: ";
-        cin >> firstName;
-        cout << "Last Name: ";
-        cin >> lastName;
-        cout << "Student ID: ";
-        cin >> studentID;
-        cout << "Expected Graduation Year (YYYY): ";
-        cin >> gradYear;
+        newSchedule.getHeader();
         cout << "Do you have any completed course work? [y/n]:";
         cin >> completedCourseWork;
 
         // If courses have been completed, have user input these course
-        DoublyLinkedList<Course> *completedCourses =
-            new DoublyLinkedList<Course>;
         if (completedCourseWork == 'y' || completedCourseWork == 'Y') {
-          cout << endl
-               << "Let's add your completed courses. I'll have you add one "
-                  "course at a time, and when your done just type "
-               << '"' << "Done" << '"' << endl;
-          cout << "Example Entry:" << endl
-               << "I've Completed: ABCD123" << endl
-               << endl;
+          newSchedule.getCompletedCourseWork();
+        }
+        newSchedule.printSchedule();
 
-          // Get completed courses
-          string nextCompletedCourse;
-          while (nextCompletedCourse != "Done") {
-            cout << "I've Completed: ";
-            cin >> nextCompletedCourse;
-            // If user inputs a course, validate against catalog and add to
-            // completed list
-            if (nextCompletedCourse != "Done") {
-              completedCourses->insert(
-                  completedCourses->size(),
-                  getCourse(CATALOG,
-                            nextCompletedCourse.substr(
-                                0, nextCompletedCourse.size() - 3),
-                            stoi(nextCompletedCourse.substr(
-                                nextCompletedCourse.size() - 3,
-                                nextCompletedCourse.size()))));
+        // Build Schedule term by term
+        cout << "Let's build your schedule one semester at a time. Starting "
+                "with "
+                "your next term."
+             << endl;
+        cout << "I'll have you enter one course at a time, when your done just "
+                "type "
+             << '"' << "Done" << '"' << endl;
+        cout << "Example Entry:" << endl
+             << "Add to Term 0: ABCD101" << endl
+             << endl;
+        int scheduleSubMenu = 1;
+        int termIdx = 1;
+        while (scheduleSubMenu != 0) {
+          newSchedule.getSemesterCourses(termIdx);
+          newSchedule.printSchedule();
+          cout << "Schedule Planner Sub-Menu" << endl;
+          cout << "   0 - Save Schedule" << endl;
+          cout << "   1 - Continue adding courses to next term" << endl;
+          cout << "Menu Selection: ";
+          cin >> scheduleSubMenu;
+          switch (scheduleSubMenu) {
+            case 0:
+              cout << "SAVING..." << endl;
 
-              if (completedCourses->get(completedCourses->size() - 1)
-                      .getCredits() != -1) {
-                cout << "\x1B[32mAdded Sucesfully: "
-                     << completedCourses->get(completedCourses->size() - 1)
-                            .getDepartment()
-                     << completedCourses->get(completedCourses->size() - 1)
-                            .getCourseID()
-                     << " "
-                     << completedCourses->get(completedCourses->size() - 1)
-                            .getName()
-                     << "\x1B[37m" << endl;
-              } else {
-                // Print if course is not found and delete from course complete
-                // list
-                cout << "\x1B[31mError: "
-                     << completedCourses->get(completedCourses->size() - 1)
-                            .getDepartment()
-                     << completedCourses->get(completedCourses->size() - 1)
-                            .getCourseID()
-                     << " NOT FOUND\x1B[37m" << endl;
-                completedCourses->remove(completedCourses->size() - 1);
-              }
-            }
-          }
-
-          // Print out completed course and if they were found
-          for (int i = 0; i < completedCourses->size(); i++) {
-          }
-
-          for (int i = 0; i < completedCourses->size(); i++) {
-            cout << completedCourses->get(i).getDepartment()
-                 << completedCourses->get(i).getCourseID() << " "
-                 << completedCourses->get(i).getName() << endl;
+              cout << "\x1B[32mSAVED SUCESFULLY\x1B[37m" << endl << endl;
+              break;
+            case 1:
+              termIdx++;
           }
         }
-        cout << "--------------------------------------------------------------"
-             << endl;
-        cout << "| Student: " << lastName << "," << firstName << right
-             << setw(50 - firstName.length() - lastName.length()) << "|"
-             << endl;
-        cout << "| ID: " << left << setw(20) << studentID << right << setw(30)
-             << "Expected Graduation: " << gradYear << " |" << endl;
-        cout << "--------------------------------------------------------------"
-             << endl;
+
+        break;
     }
   }
+
+  // if (completedCourseWork == 'y' || completedCourseWork == 'Y') {
+  //   cout << "Great, Let's now add classes to your next semester. We'll "
+  //           "Start with Fall 2022."
+  // } else {
+  //   cout << "Let's start by add"
+  // }
 }
+// 2 1 Brandon Ching 10869652 2024 y Csm101 megn200 csci101 csci102
 
 Course getCourse(const DoublyLinkedList<Course> *CATALOG,
                  const string DEPARTMENT, const int COURSE_ID) {
