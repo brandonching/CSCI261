@@ -1,4 +1,4 @@
-/* CSCI 261: Assignment 7: A7 - Triangle Land
+/* CSCI 261: Final Project: Schedule Planner
  *
  * Author: Brandon Ching
  * Resources: N/A
@@ -8,11 +8,11 @@
  */
 
 // Libraries
-#include <SFML/Graphics.hpp>
 #include <fstream>
 #include <iomanip>
 #include <iostream>  // For cin, cout, etc.
 #include <sstream>
+#include <vector>
 
 #include "Course.h"
 #include "LinkedList.hpp"
@@ -24,19 +24,24 @@ using namespace std;
 // Constants
 
 int main(int argc, char* argv[]) {
+  // Define File I/O information
   ifstream courseCatalogFileIn;
   string courseCatalogDirectory = "Data/CourseCatalog.csv";
+
   if (argc == 1) {
+    // If no files provided at run, promt user for files
+    // If files are not formated as standard, then ask for file locations
     if (!files_are_formatted()) {
-      // Ask for files
       cout << "Please Provide the file directory of the following files."
            << endl;
       cout << "Course Catalog Directory: ";
       cin >> courseCatalogDirectory;
     }
   } else if (argc == 2) {
+    // If files provided at run, open
     courseCatalogDirectory = argv[1];
   } else {
+    // Error in files provided at run
     cerr << "Usage: " << argv[0] << " [filename]" << endl;
     cerr << "  CourseCatalogFileName - optional file to open upon start"
          << endl;
@@ -46,27 +51,29 @@ int main(int argc, char* argv[]) {
   // open files for parsing
   open_file(courseCatalogFileIn, courseCatalogDirectory);
 
+  // Build Course Catalog
   LinkedList<Course>* courseCatalog = new LinkedList<Course>;
   string line;
   getline(courseCatalogFileIn, line);  // Ignore File Header
+  // Iterate through each line of file
   while (getline(courseCatalogFileIn, line)) {
+    // create temp vector to store the values of each row
     vector<string> row;
     string column;
     stringstream rawCourse(line);
+    // Iterate through each column of each line and add to temp vector
     while (getline(rawCourse, column, ',')) {
       row.push_back(column);
     }
+    // Create a new course and add to catalog
     Course newCourse(row[0], stoi(row[1]), stod(row[2]), row[3]);
     courseCatalog->pushBack(newCourse);
   }
+
+  // Main Menu
   int option = 1;
   while (option != 0) {
-    cout << endl << "Main Menu" << endl;
-    cout << "   1 - Show Catalog" << endl;
-    cout << "   2 - Open Schedule Planner" << endl;
-    cout << "   0 - Close Program" << endl;
-    cout << "Menu Selection: ";
-    cin >> option;
+    option = main_menu();
     switch (option) {
       case 0:
         cout << "Shutting Down" << endl;
@@ -75,8 +82,11 @@ int main(int argc, char* argv[]) {
         print_catalog(courseCatalog);
         break;
       case 2:
+        schedule_planner(courseCatalog);
         break;
       default:
+        cerr << "Error: Selection " << '"' << option << '"' << " not recognized"
+             << endl;
         break;
     }
   }

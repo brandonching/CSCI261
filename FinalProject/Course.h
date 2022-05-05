@@ -23,6 +23,7 @@ class Course {
   void setCredits(const double CREDITS);
   void addPreReq(Course newPreReq);
   void addCoReq(Course newCoReq);
+  
 
  private:
   string department;

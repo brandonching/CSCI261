@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Course::Course() {}
+Course::Course() { department = "NULL"; }
 
 Course::Course(const string DEPARTMENT, const int COURSE_ID,
                const double CREDITS, const string COURSE_NAME) {
