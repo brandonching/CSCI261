@@ -15,10 +15,10 @@ class Course {
          const string COURSE_NAME);
   ~Course();
 
-  string getDepartment();
-  int getCourseID();
-  double getCredits();
-  string getName();
+  string getDepartment() const;
+  int getCourseID() const;
+  double getCredits() const;
+  string getName() const;
 
   void setDepartment(const string DEPARTMENT);
   void setCourseID(const int COURSE_ID);

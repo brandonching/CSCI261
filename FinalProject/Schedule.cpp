@@ -4,7 +4,7 @@
 #include <iomanip>
 
 #include "functions.h"
-Schedule::Schedule() { cerr << "ERROR: Schedule not built properly"; }
+Schedule::Schedule() {}
 
 Schedule::Schedule(const DoublyLinkedList<Course> *CATALOG) {
   catalog = CATALOG;
@@ -26,7 +26,7 @@ void Schedule::getHeader() {
   cin >> gradYear;
 }
 
-void Schedule::getCompletedCourseWork() {
+void Schedule::getCompletedCourseWork() const {
   // Print out instructions
   cout << endl
        << "Let's add your completed courses. I'll have you add one "
@@ -66,7 +66,7 @@ void Schedule::getCompletedCourseWork() {
   }
 }
 
-void Schedule::getSemesterCourses(const int TERM) {
+void Schedule::getSemesterCourses(const int TERM) const {
   DoublyLinkedList<Course> *newTerm = new DoublyLinkedList<Course>;
   string nextCourse;
   while (nextCourse != "Done") {
@@ -99,7 +99,11 @@ void Schedule::getSemesterCourses(const int TERM) {
   courseSchedule->insert(TERM - 1, newTerm);
 }
 
-void Schedule::printSchedule() {
+string Schedule::getScheduleName() const { return scheduleName; }
+
+void Schedule::setScheuleName(const string NAME) { scheduleName = NAME; }
+
+void Schedule::printSchedule() const {
   string divider =
       "--------------------------------------------------------------"
       "----------------------------------";
@@ -147,4 +151,65 @@ void Schedule::printSchedule() {
     cout << divider << endl;
   }
   cout << endl;
+}
+
+void Schedule::exportSchedule() const {
+  // Define outputFile
+  ofstream exportFile("Exports/" + scheduleName + ".txt");
+
+  // check for error
+  if (exportFile.fail()) {
+    cerr << "Error: Could not open output file " << scheduleName << ".txt"
+         << endl;
+  }
+
+  // Write Data to file
+  string divider =
+      "--------------------------------------------------------------"
+      "----------------------------------";
+  exportFile << endl << divider << endl;
+  exportFile << "| Student: " << lastName << ", " << firstName << right
+             << setw(83 - firstName.length() - lastName.length()) << "|"
+             << endl;
+  exportFile << "| ID: " << left << setw(20) << studentID << right << setw(64)
+             << "Expected Graduation: " << gradYear << " |" << endl;
+  exportFile << divider << endl;
+  // Print completed if there are any completed courses
+  if (completed->size() > 0) {
+    // get completed course credit hours
+    double completedHours = 0;
+    for (int i = 0; i < completed->size(); i++) {
+      completedHours += completed->get(i).getCredits();
+    }
+    exportFile << "| COMPLETED COURSES" << right << setw(72) << completedHours
+               << " CH |" << endl;
+    exportFile << divider << endl;
+    for (int i = 0; i < completed->size(); i++) {
+      Course thisCourse = completed->get(i);
+      exportFile << "| " << right << setw(4) << thisCourse.getDepartment()
+                 << left << setw(3) << thisCourse.getCourseID() << left << " "
+                 << left << setw(3) << thisCourse.getCredits() << " " << left
+                 << setw(80) << thisCourse.getName() << " |" << endl;
+    }
+    exportFile << divider << endl;
+  }
+
+  for (int term = 0; term < courseSchedule->size(); term++) {
+    double completedHours = 0;
+    for (int course = 0; course < courseSchedule->get(term)->size(); course++) {
+      completedHours += courseSchedule->get(term)->get(course).getCredits();
+    }
+    exportFile << "| TERM " << term + 1 << right << setw(83) << completedHours
+               << " CH |" << endl;
+    exportFile << divider << endl;
+    for (int course = 0; course < courseSchedule->get(term)->size(); course++) {
+      Course thisCourse = courseSchedule->get(term)->get(course);
+      exportFile << "| " << right << setw(4) << thisCourse.getDepartment()
+                 << left << setw(3) << thisCourse.getCourseID() << left << " "
+                 << left << setw(3) << thisCourse.getCredits() << " " << left
+                 << setw(80) << thisCourse.getName() << " |" << endl;
+    }
+    exportFile << divider << endl;
+  }
+  exportFile << endl;
 }

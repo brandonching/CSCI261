@@ -11,13 +11,16 @@ class Schedule {
   ~Schedule();
 
   void getHeader();
-  void getCompletedCourseWork();
-  void getSemesterCourses(const int TERM);
+  void getCompletedCourseWork() const;
+  void getSemesterCourses(const int TERM) const;
+  void setScheuleName(const string NAME);
+  string getScheduleName() const;
 
-  void printSchedule();
+  void printSchedule() const;
+  void exportSchedule() const;
 
  private:
-  string firstName, lastName;
+  string firstName, lastName, scheduleName;
   int studentID, gradYear;
   DoublyLinkedList<Course> *completed;
   DoublyLinkedList<DoublyLinkedList<Course>*> *courseSchedule;

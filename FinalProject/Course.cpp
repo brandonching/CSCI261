@@ -30,25 +30,25 @@ Course::~Course() {}
 /** @brief Get the department of a course
  *
  * @return Course Department **/
-string Course::getDepartment() { return department; }
+string Course::getDepartment() const { return department; }
 
 /** @brief Get the course ID
  *
  * @return Course ID
  * */
-int Course::getCourseID() { return courseID; }
+int Course::getCourseID() const { return courseID; }
 
 /** @brief get the credits the class is worth
  *
  * @return Class Credits
  * */
-double Course::getCredits() { return credits; }
+double Course::getCredits() const { return credits; }
 
 /** @brief get the course name
  *
  * @return Course Name
  * */
-string Course::getName() { return courseName; }
+string Course::getName() const { return courseName; }
 
 /** @brief Set the Department of a course
  *

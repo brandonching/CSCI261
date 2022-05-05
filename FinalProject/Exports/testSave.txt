@@ -1,0 +1,20 @@
+
+------------------------------------------------------------------------------------------------
+| Student: Ching, Brandon                                                                      |
+| ID: 10869652                                                       Expected Graduation: 2024 |
+------------------------------------------------------------------------------------------------
+| COMPLETED COURSES                                                                     7.5 CH |
+------------------------------------------------------------------------------------------------
+|  CSM101 0.5 FRESHMAN SUCCESS SEMINAR                                                         |
+| MEGN200 3   INTRODUCTION TO MECHANICAL ENGINEERING: PROGRAMMING AND HARDWARE INTERFACE       |
+| CSCI101 3   INTRODUCTION TO COMPUTER SCIENCE                                                 |
+| CSCI102 1   INTRODUCTION TO COMPUTER SCIENCE - LAB                                           |
+------------------------------------------------------------------------------------------------
+| TERM 1                                                                                7.5 CH |
+------------------------------------------------------------------------------------------------
+|  CSM101 0.5 FRESHMAN SUCCESS SEMINAR                                                         |
+| MEGN200 3   INTRODUCTION TO MECHANICAL ENGINEERING: PROGRAMMING AND HARDWARE INTERFACE       |
+| CSCI101 3   INTRODUCTION TO COMPUTER SCIENCE                                                 |
+| CSCI102 1   INTRODUCTION TO COMPUTER SCIENCE - LAB                                           |
+------------------------------------------------------------------------------------------------
+

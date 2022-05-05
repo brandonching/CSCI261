@@ -1,13 +1,13 @@
 #include "functions.h"
 
+#include <stdio.h>
+
 #include <cstring>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <vector>
-
-#include "schedule.h"
 
 /** @brief Ask the user wheter or not the input files are formatted correctly
  * according to README.txt
@@ -25,7 +25,7 @@ bool files_are_formatted() {
     } else if (answer == 'n' || answer == 'N') {
       return false;
     } else {
-      cout << "Error: Invalid Selection" << endl;
+      cout << "\x1B[31mError: Invalid Selection\x1B[37m" << endl;
     }
   }
   return false;
@@ -43,11 +43,11 @@ void open_file(ifstream &inputFile, const string FILENAME) {
 
   // Check for an error
   if (inputFile.fail()) {
-    cerr << "Error: Counld not open " << '"' << FILENAME << '"' << endl;
-    cerr << "Shutting Down" << endl;
+    cerr << "\x1B[31mError: Counld not open " << '"' << FILENAME << '"'
+         << " Please Restart The Program\x1B[37m" << endl;
   } else {
     cout << "Opening file " << '"' << FILENAME << '"' << endl
-         << "File successfully opened!" << endl;
+         << "\x1B[32mFile successfully opened!\x1B[37m" << endl;
   }
 }
 
@@ -76,6 +76,7 @@ int main_menu() {
   cout << endl << "Main Menu" << endl;
   cout << "   1 - Show Catalog" << endl;
   cout << "   2 - Open Schedule Planner" << endl;
+  cout << "   3 - Export All Schedules" << endl;
   cout << "   0 - Close Program" << endl;
   cout << "Menu Selection: ";
   cin >> option;
@@ -90,6 +91,7 @@ int schedule_menu() {
   int option;
   cout << endl << "Schedule Planner Menu" << endl;
   cout << "   1 - New Schedule" << endl;
+  cout << "   2 - View Schedule" << endl;
   cout << "   0 - Exit to Main Menu" << endl;
   cout << "Menu Selection: ";
   cin >> option;
@@ -100,7 +102,8 @@ int schedule_menu() {
  *
  * @param CATALOG The course catalog
  * **/
-void schedule_planner(const DoublyLinkedList<Course> *CATALOG) {
+void schedule_planner(const DoublyLinkedList<Course> *CATALOG,
+                      DoublyLinkedList<Schedule> &scheduleList) {
   int option = 1;
   // Keep looping through the schedule planner submenu until user choses to
   // return to main menu
@@ -110,7 +113,7 @@ void schedule_planner(const DoublyLinkedList<Course> *CATALOG) {
       case 0:
         // Return to main menu
         break;
-      case 1:
+      case 1: {
         // New Schedule
         Schedule newSchedule(CATALOG);
         // Get general information for schedule header
@@ -151,28 +154,54 @@ void schedule_planner(const DoublyLinkedList<Course> *CATALOG) {
           cout << "Menu Selection: ";
           cin >> scheduleSubMenu;
           switch (scheduleSubMenu) {
-            case 0:
+            case 0: {
+              string scheduleName;
+              cout << "Please name your Schedule (No Spaces!): ";
+              cin >> scheduleName;
               cout << "SAVING..." << endl;
 
-              cout << "\x1B[32mSAVED SUCESFULLY\x1B[37m" << endl << endl;
+              newSchedule.setScheuleName(scheduleName);
+              scheduleList.insert(scheduleList.size() - 1, newSchedule);
+              cout << endl
+                   << "\x1B[32mSAVED SUCESFULLY\x1B[37m" << endl
+                   << endl;
               break;
+            }
             case 1:
               termIdx++;
+              break;
           }
         }
-
         break;
+      }
+
+      case 2: {
+        int scheduleToView = -1;
+        while (scheduleToView != 0) {
+          if (scheduleList.size() != 0) {
+            cout << "Which schedule would you like to view?" << endl;
+            cout << "   0 - Return to Schedule Planner" << endl;
+            for (int i = 0; i < scheduleList.size(); i++) {
+              cout << "   " << i + 1 << " - "
+                   << scheduleList.get(i).getScheduleName() << endl;
+            }
+            cout << "view: ";
+            cin >> scheduleToView;
+            if (scheduleToView != 0) {
+              scheduleList.get(scheduleToView - 1).printSchedule();
+            }
+          } else {
+            cout << "\x1B[31mError: No Schedule Found\x1B[37m" << endl;
+            break;
+          }
+        }
+        break;
+      }
     }
   }
-
-  // if (completedCourseWork == 'y' || completedCourseWork == 'Y') {
-  //   cout << "Great, Let's now add classes to your next semester. We'll "
-  //           "Start with Fall 2022."
-  // } else {
-  //   cout << "Let's start by add"
-  // }
 }
-// 2 1 Brandon Ching 10869652 2024 y Csm101 megn200 csci101 csci102
+// 2 1 Brandon Ching 10869652 2024 y Csm101 megn200 csci101 csci102 Done Csm101
+// megn200 csci101 csci102 Done 0 testSave
 
 Course getCourse(const DoublyLinkedList<Course> *CATALOG,
                  const string DEPARTMENT, const int COURSE_ID) {
@@ -200,3 +229,4 @@ string string_to_upper(const string STR) {
   }
   return result;
 }
+

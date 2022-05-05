@@ -16,6 +16,7 @@
 
 #include "Course.h"
 #include "DoublyLinkedList.hpp"
+#include "Schedule.h"
 #include "functions.h"
 
 // Library namespace
@@ -67,9 +68,10 @@ int main(int argc, char* argv[]) {
     }
     // Create a new course and add to catalog
     Course newCourse(row[0], stoi(row[1]), stod(row[2]), row[3]);
-    courseCatalog->insert(courseCatalog->size(),newCourse);
+    courseCatalog->insert(courseCatalog->size(), newCourse);
   }
 
+  DoublyLinkedList<Schedule> scheduleList;
   // Main Menu
   int option = 1;
   while (option != 0) {
@@ -86,7 +88,17 @@ int main(int argc, char* argv[]) {
         break;
       case 2:
         // Enter the Schedule planner
-        schedule_planner(courseCatalog);
+        schedule_planner(courseCatalog, scheduleList);
+        break;
+      case 3:
+        if (scheduleList.size() != 0) {
+          for (int i = 0; i < scheduleList.size(); i++) {
+            scheduleList.get(i).exportSchedule();
+          }
+        } else {
+          cerr << "\x1B[31mError: No Schedule's to Export\x1B[37m" << endl;
+        }
+
         break;
       default:
         // Selection does not exist
