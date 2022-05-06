@@ -1,0 +1,71 @@
+TITLE: Schedule Planner
+By: Brandon Ching, CSCI261 Section E 
+
+
+
+PROBLEM DESCRIPTION: For my final project I chose to create a text based schedule planner. Unfortuantly due to time constraints, I was not able to implement degree validation into the program. But the program is still a fully functional and useful tool, so long as the user pays attention to prereqs/coreqs as they go. The user has the ability to create and save multiple diffrent schedules at a time as well as export the schedules in a neatly formated .txt file.
+
+
+
+PROGRAM DOCUMENTATION: The user operation of my program is pretty simple, after running the program everything is done via text and user input. While every extranous case of invalid inputs couldn't be accounted for, most have. Through most of the program, if a user inputs an invalid input they will be prompted for a new input until its valid. There do still exist a few data input related bugs which result in the program crashing. 
+
+Actually starting the program is simply done by launching the .exe or via terminal using the "./SchedulePlanner" command. Assuming the file struture remains as outlined in README.txt, simply asnwering y or Y to the first promt will begin the program. If the structure is diffrent, the user will be promted to prodived the file directories. When launching from the terminal a user can also use "./SchedulePlanner Data/CourseCatalog.txt" (once again assuming data is formatted correctly, if not change file directory in command)
+
+Missing Features I wanted To Include
+- Prereq/Coreq validation
+- Ability to edit a schedule after its been made
+- Make data input more robust
+- GUI instead of text based
+- Ability to import old exported schedules and modify them
+
+
+
+DATA STRUCTURE: For my data I chose to have the inputed data be a tab delaminated text file, and all data storage within the program is done using DoublelyLinkedList. This was primarly because a standard linked list did not already contain the functions I required and a doubly one did. I also utilized classes for the schedules and coures to keep any related information contained within the same object. When a user choses to export their data, this is done so through a standard text document and expoerted in a easy to read format.
+
+
+
+TEST: For the most part the program is userfriendly and includes instructions. Though I have included some diffrent test below. On all menus, selection a number which is not an option will give an error and ask for new input
+
+1. Main Menu Functions - There are only a couple of things to test from the main menu for now.
+    - Start by entering "1" and press enter. The entire course catalog will be shown (this is not an extensive list)
+    - Try exporting by entering "3" and pressing enter. You will recive "Error: No Schedule's to Export"
+    - Finally enter "2" to navigate to the Schedule Planner
+
+2. The Schedule Planner Menu
+    - If you eneter "0" you will be taken back to the main menu
+    - Enter "2" and try looking at a schedule, you'll revice "Error: No Schedule Found"
+    - Finally Enter "1" to make a new schedule
+
+3. Making a Schedule
+    - Enter your first name, last name, student ID, and anticipated grauation year when asked
+    - Select "y" for completed course work
+    - Enter the following courses one at a time "cSM101" "phgn100" "CHgN121"  followed by "done" (Caps doesn't matter). You should see a schedule with your info and 9CH completed.
+    - Enter 1 to add to Term 1 copy and paste "csci101 csci102 csci261 megn200" into the program when prompeted "Add to Term 1: ". This simulates the ability to add multiple courses at once.
+    - OH NO! CSCI261 wasn't found as the course is CSCI200 now! enter "csci200" followed by "done". The current Schedule will be printed again
+    - To save time copy and paste the following to populate the rest of the schedule "1 HNRS115 MATH213 PHGN200 CEEN241 done 1 EENG281 MATH225 MEGN200 MEGN201 MEGN361 done 1 CHGN125 MEGN212 MEGN2315 MATH307 MEGN300 done" . This will build a schedule with 4 terms
+    - Finally Enter 0 to save, when asked name the schedule "myFirstSchedule"
+
+4. View Schedules
+    - Copy and paste the following and press enter. This will generate more schedules. "1 Johny Appleseed 12345678 2020 n 1 MTGN202 MEGN324 MEGN351 MEGN301 done 0 annotherSchedule 1 Johny Appleseed 12345678 2020 n 1 MTGN202 MEGN324 MEGN351 MEGN301 done 0 moreSchedules 1 Johny Appleseed 12345678 2020 n 1 MTGN202 MEGN324 MEGN351 MEGN301 done 0 thatSchedule"
+    - Not enter "2" to view the schedules
+    - Enter 1-4 to look at the diffrent schedules. Enter "0" When your done.
+    - Enter "0" to go back to the main menu
+
+5. Exporting Schedules
+    - Enter "3" to export the Schedules
+    - Enter "0" to close the program
+    - Now you can look at all your saved schedules in the "Exports Folder"
+
+
+** There are a couple spots where not following the input format results in a crash...
+- When inputing name, student id, and year
+    - DO NOT input characters in when asked for ID or year
+- When inputing classes to add to schedule
+    - DO NOT seperate the department and courseID
+    - DO NOT input only characters or only numbers 
+- When selecting from a menu
+    - DO NOT input a character, only use 0-9
+
+
+
+REFLECTION: Through working on this project I learned alot about how to imporve my work flow. Instead of createing a detailed plan of my programs functions and data structure, I dove right into coding. This resulted in me having to completely recode several sections as I changed my approch multiple times thorugh out. This was simply due to limitations I encountered or a desire to optimize my code. Besides that, i surprisingly didnt run into too many random bugs or issues and had a mostly smooth coding expierance. Though I do still belive planning ahead better for a 1000+ line project would have saved me hours of recoding.

@@ -16,6 +16,7 @@
  * **/
 bool files_are_formatted() {
   char answer;
+  // Continue asking for input until valid
   while (!(answer == 'y' || answer == 'Y' || answer == 'n' || answer == 'N')) {
     cout << "Is you input data formated correctly (see README.txt)? [y/n]"
          << endl;
@@ -59,6 +60,7 @@ void print_catalog(const DoublyLinkedList<Course> *CATALOG) {
   // Print out the catalog
   cout << endl << endl;
   cout << " Course | CH | Name" << endl;
+  // Loop thorugh each course in catalog
   for (int i = 0; i < CATALOG->size(); i++) {
     Course thisClass = CATALOG->get(i);
     cout << right << setw(4) << thisClass.getDepartment()
@@ -101,6 +103,7 @@ int schedule_menu() {
 /** @brief Create a schedule
  *
  * @param CATALOG The course catalog
+ * @param scheduleList The list containing the list of saved schedules
  * **/
 void schedule_planner(const DoublyLinkedList<Course> *CATALOG,
                       DoublyLinkedList<Schedule> &scheduleList) {
@@ -134,8 +137,7 @@ void schedule_planner(const DoublyLinkedList<Course> *CATALOG,
 
         // Build Schedule term by term
         cout << "Let's build your schedule one semester at a time. Starting "
-                "with "
-                "your next term."
+                "with your next term."
              << endl;
         cout << "I'll have you enter one course at a time, when your done just "
                 "type "
@@ -143,11 +145,12 @@ void schedule_planner(const DoublyLinkedList<Course> *CATALOG,
         cout << "Example Entry:" << endl
              << "Add to Term 0: ABCD101" << endl
              << endl;
+
+        // Default to adding courses
         int scheduleSubMenu = 1;
         int termIdx = 1;
         while (scheduleSubMenu != 0) {
-          newSchedule.getSemesterCourses(termIdx);
-          newSchedule.printSchedule();
+          // Show the submenu
           cout << "Schedule Planner Sub-Menu" << endl;
           cout << "   0 - Save Schedule" << endl;
           cout << "   1 - Continue adding courses to next term" << endl;
@@ -155,11 +158,11 @@ void schedule_planner(const DoublyLinkedList<Course> *CATALOG,
           cin >> scheduleSubMenu;
           switch (scheduleSubMenu) {
             case 0: {
+              // get name for schedule and save
               string scheduleName;
-              cout << "Please name your Schedule (No Spaces!): ";
+              cout << "Please name your Schedule (No Spaces! Only Letters): ";
               cin >> scheduleName;
               cout << "SAVING..." << endl;
-
               newSchedule.setScheuleName(scheduleName);
               scheduleList.insert(scheduleList.size() - 1, newSchedule);
               cout << endl
@@ -168,17 +171,29 @@ void schedule_planner(const DoublyLinkedList<Course> *CATALOG,
               break;
             }
             case 1:
+              newSchedule.getSemesterCourses(termIdx);
+              newSchedule.printSchedule();
+              // Go to next term and continue adding classes
               termIdx++;
+              break;
+            default:
+              // Selection does not exist
+              cerr << "\x1B[31mError: Selection " << '"' << scheduleSubMenu
+                   << '"' << " not recognized\x1B[37m" << endl;
               break;
           }
         }
         break;
+        // Finish Making New Schedule and send back to Schedule Planner Menu
       }
-
+        // 2 1 Brandon Ching 1234567890 2024 Y csm101 MEgn200 Done Done 0
       case 2: {
+        // View previously saved schedules
         int scheduleToView = -1;
         while (scheduleToView != 0) {
           if (scheduleList.size() != 0) {
+            // If previously saved schdules exist, prompt user for which one to
+            // dispaly
             cout << "Which schedule would you like to view?" << endl;
             cout << "   0 - Return to Schedule Planner" << endl;
             for (int i = 0; i < scheduleList.size(); i++) {
@@ -191,18 +206,32 @@ void schedule_planner(const DoublyLinkedList<Course> *CATALOG,
               scheduleList.get(scheduleToView - 1).printSchedule();
             }
           } else {
+            // If no saved schedules exist, output an error
             cout << "\x1B[31mError: No Schedule Found\x1B[37m" << endl;
             break;
           }
         }
         break;
       }
+      default:
+        // Selection does not exist
+        cerr << "\x1B[31mError: Selection " << '"' << option << '"'
+             << " not recognized\x1B[37m" << endl;
+        break;
     }
   }
 }
-// 2 1 Brandon Ching 10869652 2024 y Csm101 megn200 csci101 csci102 Done Csm101
-// megn200 csci101 csci102 Done 0 testSave
 
+/** @brief Takes the inputed course and returns the matching course info from
+ * the catalog if the course exist. If no course exist, creates and return a
+ * null course
+ *
+ * @param CATALOG the catalog of courses to compare against
+ * @param DEPARTMENT The course department being searched for
+ * @param COURSE_ID The courseID being searched for
+ *
+ * @return The matching course from the CATALOG if found
+ * **/
 Course getCourse(const DoublyLinkedList<Course> *CATALOG,
                  const string DEPARTMENT, const int COURSE_ID) {
   // compare Department and courseID to catalog. Return Course from catalog if
@@ -218,6 +247,12 @@ Course getCourse(const DoublyLinkedList<Course> *CATALOG,
   return nullCourse;
 }
 
+/** @brief Converts a string to all uppercase
+ *
+ * @param STR The string to be converted to all uppercase
+ *
+ * @return An all upercase string
+ * **/
 string string_to_upper(const string STR) {
   string result = STR;
   string upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -229,4 +264,3 @@ string string_to_upper(const string STR) {
   }
   return result;
 }
-

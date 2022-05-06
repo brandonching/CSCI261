@@ -27,7 +27,7 @@ using namespace std;
 int main(int argc, char* argv[]) {
   // Define File I/O information
   ifstream courseCatalogFileIn;
-  string courseCatalogDirectory = "Data/CourseCatalog.csv";
+  string courseCatalogDirectory = "Data/CourseCatalog.txt";
 
   if (argc == 1) {
     // If no files provided at run, promt user for files
@@ -63,13 +63,23 @@ int main(int argc, char* argv[]) {
     string column;
     stringstream rawCourse(line);
     // Iterate through each column of each line and add to temp vector
-    while (getline(rawCourse, column, ',')) {
+    while (getline(rawCourse, column, '\t')) {
       row.push_back(column);
     }
     // Create a new course and add to catalog
     Course newCourse(row[0], stoi(row[1]), stod(row[2]), row[3]);
     courseCatalog->insert(courseCatalog->size(), newCourse);
   }
+
+  // Print welcome mesage
+  cout << endl
+       << "Welcome to the Schedule Planner!" << endl
+       << "For the best user expierance, expand your window until the line "
+          "below is all on the same row."
+       << endl
+       << "--------------------------------------------------------------"
+          "--------------------------------------------"
+       << endl;
 
   DoublyLinkedList<Schedule> scheduleList;
   // Main Menu
@@ -91,9 +101,13 @@ int main(int argc, char* argv[]) {
         schedule_planner(courseCatalog, scheduleList);
         break;
       case 3:
+        // Export any saved schedules to individual files matching the schedule
+        // name
         if (scheduleList.size() != 0) {
           for (int i = 0; i < scheduleList.size(); i++) {
             scheduleList.get(i).exportSchedule();
+            cout << "\x1B[32m" << scheduleList.get(i).getScheduleName()
+                 << "Exported Sucessfully\x1B[37m" << endl;
           }
         } else {
           cerr << "\x1B[31mError: No Schedule's to Export\x1B[37m" << endl;
@@ -102,8 +116,8 @@ int main(int argc, char* argv[]) {
         break;
       default:
         // Selection does not exist
-        cerr << "Error: Selection " << '"' << option << '"' << " not recognized"
-             << endl;
+        cerr << "\x1B[31mError: Selection " << '"' << option << '"'
+             << " not recognized\x1B[37m" << endl;
         break;
     }
   }

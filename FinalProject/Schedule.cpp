@@ -4,16 +4,29 @@
 #include <iomanip>
 
 #include "functions.h"
+
+/** @brief Default Constructor
+ * **/
 Schedule::Schedule() {}
 
+/** @brief Paramaterzed Constructor which creates the completed and schedule
+ * list
+ *
+ * @param CATALOG The catalog to which the schedule can be built on
+ * **/
 Schedule::Schedule(const DoublyLinkedList<Course> *CATALOG) {
   catalog = CATALOG;
   completed = new DoublyLinkedList<Course>;
   courseSchedule = new DoublyLinkedList<DoublyLinkedList<Course> *>;
 }
 
+/** @brief Detroy the completed and schedule list
+ * **/
 Schedule::~Schedule() {}
 
+/** @brief Get header information from user and sets the respective class
+ * memebrs
+ * **/
 void Schedule::getHeader() {
   // Get Information for header
   cout << "First Name: ";
@@ -24,9 +37,15 @@ void Schedule::getHeader() {
   cin >> studentID;
   cout << "Expected Graduation Year (YYYY): ";
   cin >> gradYear;
+
+  // Convert name to uppercase
+  firstName = string_to_upper(firstName);
+  lastName = string_to_upper(lastName);
 }
 
-void Schedule::getCompletedCourseWork() const {
+/** @brief Have the user input any completed course work they may have achived
+ * **/
+void Schedule::getCompletedCourseWork() {
   // Print out instructions
   cout << endl
        << "Let's add your completed courses. I'll have you add one "
@@ -36,12 +55,12 @@ void Schedule::getCompletedCourseWork() const {
 
   // Get completed courses
   string nextCourse;
-  while (nextCourse != "Done") {
+  while (string_to_upper(nextCourse) != "DONE") {
     cout << "I've Completed: ";
     cin >> nextCourse;
     // If user inputs a course, validate against catalog and add to
     // completed list
-    if (nextCourse != "Done") {
+    if (string_to_upper(nextCourse) != "DONE") {
       completed->insert(
           completed->size(),
           getCourse(catalog, nextCourse.substr(0, nextCourse.size() - 3),
@@ -66,14 +85,19 @@ void Schedule::getCompletedCourseWork() const {
   }
 }
 
-void Schedule::getSemesterCourses(const int TERM) const {
+/** @brief Have the user input any course work they plan to complete for a given
+ * TERM
+ *
+ * @param TERM The term in which course work will be completed
+ * **/
+void Schedule::getSemesterCourses(const int TERM) {
   DoublyLinkedList<Course> *newTerm = new DoublyLinkedList<Course>;
   string nextCourse;
-  while (nextCourse != "Done") {
+  while (string_to_upper(nextCourse) != "DONE") {
     cout << "Add to Term " << TERM << ": ";
     cin >> nextCourse;
     // If user inputs a course, validate against catalog and add to term
-    if (nextCourse != "Done") {
+    if (string_to_upper(nextCourse) != "DONE") {
       newTerm->insert(
           newTerm->size(),
           getCourse(catalog, nextCourse.substr(0, nextCourse.size() - 3),
@@ -99,10 +123,18 @@ void Schedule::getSemesterCourses(const int TERM) const {
   courseSchedule->insert(TERM - 1, newTerm);
 }
 
+/** @brief Get a schedules name
+ *
+ * @return The name of the schedule
+ * **/
 string Schedule::getScheduleName() const { return scheduleName; }
 
+/** @brief sets the scheudles name
+ * **/
 void Schedule::setScheuleName(const string NAME) { scheduleName = NAME; }
 
+/** @brief Print out the Formatted Schedule
+ * **/
 void Schedule::printSchedule() const {
   string divider =
       "--------------------------------------------------------------"
@@ -153,6 +185,8 @@ void Schedule::printSchedule() const {
   cout << endl;
 }
 
+/** @brief Expor the Formated Schedule
+ * **/
 void Schedule::exportSchedule() const {
   // Define outputFile
   ofstream exportFile("Exports/" + scheduleName + ".txt");

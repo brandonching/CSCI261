@@ -11,8 +11,8 @@ class Schedule {
   ~Schedule();
 
   void getHeader();
-  void getCompletedCourseWork() const;
-  void getSemesterCourses(const int TERM) const;
+  void getCompletedCourseWork();
+  void getSemesterCourses(const int TERM);
   void setScheuleName(const string NAME);
   string getScheduleName() const;
 

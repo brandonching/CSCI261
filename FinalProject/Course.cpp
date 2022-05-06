@@ -72,10 +72,12 @@ void Course::setCredits(const double CREDITS) { credits = CREDITS; }
  *
  * @param newPreReq adds this course to the preReq list
  * */
-void Course::addPreReq(Course newPreReq) { preReq.insert(preReq.size(),newPreReq); }
+void Course::addPreReq(Course newPreReq) {
+  preReq.insert(preReq.size(), newPreReq);
+}
 
 /** @brief Add coReqs to a course
  *
  * @param newCoReq adds this course to the coReq list
  * */
-void Course::addCoReq(Course newCoReq) { coReq.insert(coReq.size(),newCoReq); }
+void Course::addCoReq(Course newCoReq) { coReq.insert(coReq.size(), newCoReq); }
