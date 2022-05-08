@@ -56,6 +56,8 @@ BinarySearchTree<T>::BinarySearchTree(const BinarySearchTree& OTHER) {
 template <typename T>
 BinarySearchTree<T>::~BinarySearchTree() {}
 
+/** @brief Copy operator
+ * **/
 template <typename T>
 BinarySearchTree<T>& BinarySearchTree<T>::operator=(
     const BinarySearchTree& OTHER) {
@@ -70,8 +72,13 @@ BinarySearchTree<T>& BinarySearchTree<T>::operator=(
   return *this;
 }
 
+/** @brief Insert a new value into the BST
+ *
+ * @param VAL the value to be added to the tree
+ * **/
 template <typename T>
 void BinarySearchTree<T>::insert(const T VAL) {
+  // create the new node
   TreeNode<T>* newNode = new TreeNode<T>;
   newNode->value = VAL;
   newNode->Left = nullptr;
@@ -82,6 +89,7 @@ void BinarySearchTree<T>::insert(const T VAL) {
     mpRoot = newNode;
     newNode->Parent = nullptr;
   } else if (VAL < mpRoot->value) {
+    // recurrsivelly add to left if less than current nodes val
     if (mpRoot->Left == nullptr) {
       mpRoot->Left = newNode;
     } else {
@@ -89,6 +97,7 @@ void BinarySearchTree<T>::insert(const T VAL) {
       nextTree->insert(VAL);
     }
   } else {
+    // recurrsivelly add to right if less than current nodes val
     if (mpRoot->Right == nullptr) {
       mpRoot->Right = newNode;
     } else {
@@ -108,16 +117,21 @@ int BinarySearchTree<T>::size() const {
   return mSize;
 }
 
+/** @brief Print out the BST in left, center, right order
+ * **/
 template <typename T>
 void BinarySearchTree<T>::printInOrder() {
+  // Recurrsivly Search Left
   if (mpRoot->Left != nullptr) {
     BinarySearchTree<T>* nextTree = new BinarySearchTree<T>;
     nextTree->mpRoot = mpRoot->Left;
     nextTree->printInOrder();
   }
 
+  // Print out center
   std::cout << mpRoot->value << " ";
 
+  // Recurrsivly Search Right
   if (mpRoot->Right != nullptr) {
     BinarySearchTree<T>* nextTree = new BinarySearchTree<T>;
     nextTree->mpRoot = mpRoot->Right;
@@ -125,16 +139,21 @@ void BinarySearchTree<T>::printInOrder() {
   }
 }
 
+/** @brief Print out the BST in center, left, right order
+ * **/
 template <typename T>
 void BinarySearchTree<T>::printPreOrder() {
+  // Print out center
   std::cout << mpRoot->value << " ";
 
+  // Recurrsivly Search Left
   if (mpRoot->Left != nullptr) {
     BinarySearchTree<T>* nextTree = new BinarySearchTree<T>;
     nextTree->mpRoot = mpRoot->Left;
     nextTree->printPreOrder();
   }
 
+  // Recurrsivly Search Right
   if (mpRoot->Right != nullptr) {
     BinarySearchTree<T>* nextTree = new BinarySearchTree<T>;
     nextTree->mpRoot = mpRoot->Right;
@@ -142,85 +161,117 @@ void BinarySearchTree<T>::printPreOrder() {
   }
 }
 
+/** @brief Print out the BST in left, right, center order
+ * **/
 template <typename T>
 void BinarySearchTree<T>::printPostOrder() {
+  // Recurrsivly Search Left
   if (mpRoot->Left != nullptr) {
     BinarySearchTree<T>* nextTree = new BinarySearchTree<T>;
     nextTree->mpRoot = mpRoot->Left;
     nextTree->printPostOrder();
   }
 
+  // Recurrsivly Search Right
   if (mpRoot->Right != nullptr) {
     BinarySearchTree<T>* nextTree = new BinarySearchTree<T>;
     nextTree->mpRoot = mpRoot->Right;
     nextTree->printPostOrder();
   }
 
+  // Print out center
   std::cout << mpRoot->value << " ";
 }
 
+/** @brief Print out the BST using BFS
+ **/
 template <typename T>
 void BinarySearchTree<T>::printBreadthOrder() {
+  // build queue and add first node to it
   std::queue<TreeNode<T>*> printQueue;
   printQueue.push(mpRoot);
   TreeNode<T>* currentNode;
+
+  // search through list until nothing left
   while (!printQueue.empty()) {
+    // update current node, print, and remove from queue
     currentNode = printQueue.front();
     std::cout << currentNode->value << " ";
     printQueue.pop();
 
+    // add left to queue
     if (currentNode->Left != nullptr) {
       printQueue.push(currentNode->Left);
     }
 
+    // add right to queue
     if (currentNode->Right != nullptr) {
       printQueue.push(currentNode->Right);
     }
   }
 }
 
+/** @brief Print out the BST using DFS
+ **/
 template <typename T>
 void BinarySearchTree<T>::printDepthOrder() {
+  // build stack and add first node to it
   std::stack<TreeNode<T>*> printQueue;
   printQueue.push(mpRoot);
   TreeNode<T>* currentNode;
+
+  // search through list until nothing left
   while (!printQueue.empty()) {
+    // update current node, print, and remove from stack
     currentNode = printQueue.top();
     std::cout << currentNode->value << " ";
     printQueue.pop();
 
+    // add left to stack
     if (currentNode->Right != nullptr) {
       printQueue.push(currentNode->Right);
     }
 
+    // add right to stack
     if (currentNode->Left != nullptr) {
       printQueue.push(currentNode->Left);
     }
   }
 }
 
+/** @brief Print out the BST one level of the tree at a time
+ **/
 template <typename T>
 void BinarySearchTree<T>::printByLevel() {
   if (mpRoot == nullptr) {
     return;  // base case
   }
 
+  // queue and current node for tracking levels
   std::queue<TreeNode<T>*> printQueue;
   printQueue.push(mpRoot);
   TreeNode<T>* currentNode;
 
+  // start with level 1
   int level = 1;
-  while (!printQueue.empty()){
-    std::cout << std::endl<< "Level " << level << ": ";
+  while (!printQueue.empty()) {
+    // print level label
+    std::cout << std::endl << "Level " << level << ": ";
+    // size of queue is the number of items on level
     int levelSize = printQueue.size();
+    // print out each item on level and add right/left
     while (levelSize > 0) {
+      // print out value
       currentNode = printQueue.front();
       std::cout << currentNode->value << " ";
       printQueue.pop();
+
+      // add left node
       if (currentNode->Left != nullptr) {
         printQueue.push(currentNode->Left);
       }
 
+      // add right node
       if (currentNode->Right != nullptr) {
         printQueue.push(currentNode->Right);
       }
@@ -230,25 +281,33 @@ void BinarySearchTree<T>::printByLevel() {
   }
 }
 
+/** @brief Print out the height of the BST
+ **/
 template <typename T>
 void BinarySearchTree<T>::height() {
   if (mpRoot == nullptr) {
   }
 
+  // queue and current node for tracking levels
   std::queue<TreeNode<T>*> printQueue;
   printQueue.push(mpRoot);
   TreeNode<T>* currentNode;
 
+  // start with level 1
   int level = 1;
   while (!printQueue.empty()) {
     int levelSize = printQueue.size();
     while (levelSize > 0) {
+      // remove last level nodes
       currentNode = printQueue.front();
       printQueue.pop();
+
+      // add left node
       if (currentNode->Left != nullptr) {
         printQueue.push(currentNode->Left);
       }
 
+      // add right node
       if (currentNode->Right != nullptr) {
         printQueue.push(currentNode->Right);
       }
@@ -256,6 +315,6 @@ void BinarySearchTree<T>::height() {
     }
     level++;
   }
-  std::cout << level-1;
+  std::cout << level - 1;
 }
 #endif

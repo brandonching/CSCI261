@@ -82,6 +82,7 @@ void BinarySearchTree<T>::insert(const T VAL) {
     mpRoot = newNode;
     newNode->Parent = nullptr;
   } else if (VAL < mpRoot->value) {
+    // recurrsivelly add to left if less than current nodes val
     if (mpRoot->Left == nullptr) {
       mpRoot->Left = newNode;
     } else {
@@ -89,6 +90,7 @@ void BinarySearchTree<T>::insert(const T VAL) {
       nextTree->insert(VAL);
     }
   } else {
+    // recurrsivelly add to right if less than current nodes val
     if (mpRoot->Right == nullptr) {
       mpRoot->Right = newNode;
     } else {
