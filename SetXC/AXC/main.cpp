@@ -36,7 +36,7 @@ int main() {
   tree->printBreadthOrder();
   cout << endl << "Depth Order:   ";
   tree->printDepthOrder();
-  cout << "By Levels: ";
+  cout << endl <<"By Levels: ";
   tree->printByLevel();
   cout << endl << "Height: ";
   tree->height();
@@ -60,7 +60,7 @@ int main() {
   tree2->printBreadthOrder();
   cout << endl << "Depth Order:   ";
   tree2->printDepthOrder();
-  cout << "By Levels: ";
+  cout << endl << "By Levels: ";
   tree2->printByLevel();
   cout << endl << "Height: ";
   tree2->height();
@@ -84,7 +84,7 @@ int main() {
   tree3->printBreadthOrder();
   cout << endl << "Depth Order:   ";
   tree3->printDepthOrder();
-  cout << "By Levels: ";
+  cout << endl << "By Levels: ";
   tree3->printByLevel();
   cout << endl << "Height: ";
   tree3->height();
